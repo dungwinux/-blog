@@ -40,8 +40,9 @@ Ai cũng hỏi thế nào về lập trình máy tính, nhưng ít ai để ý l
 là như thế nào. Như định nghĩa ở trên, máy tính cần nhận lệnh của bạn, nhưng
 _làm thế nào_ để nó cho bạn biết là nó đã nhận được lệnh, là nó đã có kêt quả?
 Nó giống như lúc bạn nói chuyện với người khác, làm sao để biết được người đối
-diện đang nghe mình nói. Đúng, bạn cần có phản hồi. Bạn phải nghe được lời đáp,
+diện đang nghe mình nói. Đúng! Bạn cần có phản hồi. Bạn phải nghe được lời đáp,
 hoặc thấy được sự thay đổi biểu cảm của họ. Điều tương tự cần được làm với máy
 tính. Ngày nay, màn hình là một trong những phương thức chủ yếu máy tính phản
 hồi lại với bạn. Làm thế nào để hiển thị trên màn hình? Chúng ta cần _in ra_
-trên màn hình. _Bất kể thứ gì!_ `Hello, World!` chỉ đơn thuần là phổ biến hơn.
+trên màn hình. _Bất kể thứ gì!_ `Hello, World!` chỉ đơn thuần là phổ biến hơn
+cả.
