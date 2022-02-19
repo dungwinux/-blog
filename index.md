@@ -8,7 +8,7 @@ title: main()
 
 <section class="posts">
 
-<h1>
+<h1 style="font-family: system-ui;">
 Welcome
 </h1>
 
