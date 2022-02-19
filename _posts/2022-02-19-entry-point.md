@@ -11,12 +11,14 @@ các 2 khởi đầu phổ biến của các ngôn ngữ.
 
 ### Hàm `main()`
 
+##### C++
 ```cpp
 int main() {
 
 }
 ```
 
+##### Java
 ```java
 class Main {
     public static void main(String[] args) {
@@ -24,10 +26,12 @@ class Main {
 }
 ```
 
+##### Haskell
 ```haskell
 main = return 0
 ```
 
+##### Pascal
 ```pascal
 begin
 
@@ -63,10 +67,12 @@ trong Pascal, nó sẽ chỉ đơn giản là `begin` và `end.`
 
 ### Từ dòng đầu tiên (không có `main()`)
 
+##### JavaScript
 ```js
 console.log("No main()")
 ```
 
+##### Python
 ```py
 print("No main()")
 ```
