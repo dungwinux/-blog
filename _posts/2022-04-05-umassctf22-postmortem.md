@@ -84,7 +84,7 @@ Hint:
 
 > I was supposed to give out this document from ■■■ game engine along with the file.
 > However, the physical version is damaged, and I don't have a digital backup.
-> This should look clear enough, right? [mere_hint.png](/assets/images/mere_hint.png)
+> This should look clear enough, right? [mere_hint.png]({{ "/assets/images/mere_hint.png" | relative_url }})
 
 #### Comment
 
