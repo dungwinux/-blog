@@ -21,7 +21,11 @@ Welcome
     &nbsp;
     .title = "<a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>"s,
     &nbsp;
-    .categories = {{% for cat in site.categories %} {{ cat }}, {% endfor %}},
+    .categories = {
+        {% for cat in site.categories %}
+            {{ cat }},
+        {% endfor %}
+    },
     &nbsp;
 }
 </code>
