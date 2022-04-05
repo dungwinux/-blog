@@ -42,7 +42,7 @@ I came up with this challenge one day before CTF started. The response to this c
 Challenge static file:
 [UMassCybersecurity:UMassCTF-2022-challenges/misc/tino/static](https://github.com/UMassCybersecurity/UMassCTF-2022-challenges/tree/main/misc/tino/static)
 
-Generator source code: https://github.com/dungwinux/tino
+Generator source code: [dungwinux:tino](https://github.com/dungwinux/tino)
 
 <!-- Add write-ups here -->
 
@@ -98,7 +98,7 @@ I hope people who attempted to solve this can get one or two insights into rever
 Challenge static file:
 [UMassCybersecurity:UMassCTF-2022-challenges/misc/mere/static](https://github.com/UMassCybersecurity/UMassCTF-2022-challenges/tree/main/misc/mere/static)
 
-Generator source code: https://github.com/dungwinux/myr_archive
+Generator source code: [dungwinux:myr_archive](https://github.com/dungwinux/myr_archive)
 
 Official writeup: _To be added_
 
