@@ -17,8 +17,12 @@ Welcome
 <li>
 <code>
 {
-    .date = <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>,
-    .title = "<a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>"s
+    .date = <time datetime="{{ post.date | date_to_xmlschema }}">"{{ post.date | date_to_rfc822 }}"</time>,
+    &nbsp;
+    .title = "<a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>"s,
+    &nbsp;
+    .categories = {{% for cat in site.categories %} {{ cat }}, {% endfor %}},
+    &nbsp;
 }
 </code>
 
