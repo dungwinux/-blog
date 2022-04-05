@@ -17,7 +17,7 @@ Welcome
 <li>
 <code>
 {
-    .date = <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d }}</time>,
+    .date = <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>,
     .title = "<a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>"s,
 }
 </code>
