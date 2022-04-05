@@ -50,13 +50,13 @@ Generator source code: [dungwinux:tino](https://github.com/dungwinux/tino)
 
 The given challenge file is a C++ source code _obfuscated_ with C/C++'s usual `#define`.
 The original source code is a flag printer written in C++20.
-There is one bug in the lambda expression passed to `std::views::filter()`,
-which should return true on odd instead of even number.
+There is one bug in the lambda expression passed to [`std::views::filter()`](https://en.cppreference.com/w/cpp/ranges/filter_view),
+which should return true on even instead of odd number.
 
 The obfuscation idea is based on the fact that C++ preprocessor directive [`#define`](https://en.cppreference.com/w/cpp/preprocessor/replace) allows replacing every keywords, constants, whole strings, ... in normal source code.
 Aligned with that, `_` (underscore) is the only non-alphanumeric ASCII character that can be used as identifier in `#define`.
 For strings obfuscation, the challenge used a less-known C/C++ [feature](https://en.cppreference.com/w/c/language/string_literal#Explanation): the prepared source code have strings separated each character into their own `""` bracket
-(i.e: `"Hello"` must be rewritten as `"H" "e" "l" "l" "o"`.)
+(i.e: `"Hello"` is equivalent to `"H" "e" "l" "l" "o"`.)
 
 #### Solution discussion
 
@@ -142,3 +142,5 @@ Thanks to that, we could fix the issues early and had the event run smoothly thr
 
 -   Challenge Update Transparency: This was at least improved compared to the last year, although the problem is still there. Notification in CTFd was used but did not sync with the _#announcement_ channel in Discord. Perhaps we should prepare a bot to sync them for next year's.
 -   Better timing: We did not put the time on the calendar early, so the overlapping was inevitable and the number of teams is incomparable to last year. For next year event, time and date will be added early.
+
+_Update 2022-04-05: Fix some typos_
