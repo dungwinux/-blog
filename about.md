@@ -20,7 +20,7 @@ In my free time, I play CTF for team SavedByTheShell in forensics and reversing
 categories.
 I was part of the team organizing UMassCTF 2022, creating 2 forensic challenges:
 tino and mere. Both building instruction and solutions are available on my GitHub.
-[Post-mortem of UMassCTF 2022](/-blog/{% post_url 2022-04-05-umassctf22-postmortem %})
+[Post-mortem of UMassCTF 2022](/-blog{% post_url 2022-04-05-umassctf22-postmortem %})
 is available on the blog.
 
 You are currently in the domain of my personal blog. You may find contents
