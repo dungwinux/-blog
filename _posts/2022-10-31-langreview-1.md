@@ -56,7 +56,7 @@ chung một binary (Tìm nexe).
 ### Phá (kiểu) cách, nhưng tốc độ cao
 
 Hệ thống kiểu trong JavaScript là động, không gắn liền kiểu nhất định với một
-biến. Biến `a` nay là String, mai có thể là Number, chẳng có ai cản.
+biến. Biến `a` nay là string, mai có thể là number, chẳng có ai cản.
 ```js 
 let a = "Welcome";
 a = 2;              // OK
@@ -66,10 +66,10 @@ a = "JavaScript";   // OK
 ngữ bậc thấp, gần với phần cứng hơn (trong
 điều kiện code C++ không được tối ưu bằng tay). Để có thể trở thành một nền
 tảng của Web hiện đại, JavaScript ắt cần phải nhanh, nhưng điều kì diệu gì
-đã giúp cho nó nhanh? Câu trả lời nằm ở Engine: V8 và SpiderMonkey. Các engine
-đều gồm Garbage Collector và Just-in-Time Compiler rất hiệu quả trong việc
-dự đoán và tối ưu. Khi tiếp nhận, bản thân mã nguồn JavaScript cũng được
-biên dịch trước (Ahead-of-Time compile) và engine sẽ viết lại dưới dạng tối ưu hơn.
+đã giúp cho nó nhanh? Câu trả lời nằm ở Engine: phổ biến là V8 và SpiderMonkey.
+Các engine đều gồm Garbage Collector và Just-in-Time Compiler rất hiệu quả trong việc
+đưa ra dự đoán và khởi động (warmup). Khi tiếp nhận, bản thân mã nguồn JavaScript cũng được
+biên dịch trước (Ahead-of-Time compiling) và engine sẽ viết lại dưới dạng tối ưu hơn.
 
 Một ví dụ có thể kể đến: V8 ngầm chia mảng thành hơn 20 kiểu khác nhau. Mỗi
 kiểu sẽ có cách tối ưu khác nhau. Nếu đoán là mảng các số liên tiếp
@@ -110,8 +110,8 @@ dẫn, mỗi đường dẫn trỏ đến mảng khác nhau. Để có thể t�
 đến đối tượng khác nhau như vậy, chúng ta sử dụng hàm kết hợp với hàm bậc cao
 (Higher-order Function) `.map`.
 
-Cũng nói luôn, mô hình quản lý bộ nhớ của JavaScript là sử dụng
-Garbage Collection: bộ nhớ còn sử dụng thì giữ, hết dùng rồi thì vứt đi, mở
+Cũng nói luôn, mô hình quản lý bộ nhớ của JavaScript là sử dụng Garbage Collection:
+bộ nhớ còn sử dụng thì giữ, hết dùng rồi thì vứt đi, mở
 chỗ cho lưu trữ thông tin mới.
 
 Tuy vậy, phần lớn các tính năng khác không hề giống Java. Nếu có ai hỏi Java và
@@ -187,8 +187,9 @@ Xem thêm:
 [What the heck is the event loop anyway? | Philip Roberts | JSConf EU](https://youtu.be/8aGhZQkoFbQ)
 
 Nhân tiện, một tác vụ phụ chạy không đồng bộ trong JavaScript có thể được biểu
-diễn bằng một `Promise`. Bạn có thể biến một hàm thành chạy không đồng bộ
-bằng cách thêm `async` vào trước. Để có thể đợi một `Promise`, dùng `await`.
+diễn bằng một `Promise`. Bạn có thể dễ dàng biến một hàm thành chạy không đồng bộ
+bằng cách thêm `async` vào trước. Để có thể đợi một `Promise`, đơn giản dùng `await`
+(trong một hàm `async`).
 
 Trong đặc tả HTML Living Standard có bổ sung Web Workers, cho phép JavaScript
 phân phối và chạy đa luồng thông qua các Worker. Tính năng này hỗ trợ ở Chrome,
