@@ -10,6 +10,119 @@ Số thứ 2 của sê-ri, chúng ta sẽ bàn nốt những đặc điểm còn
 Nếu bạn chưa đọc phần trước, hãy xem:
 [Language Review #1: JavaScript](/-blog{% post_url 2022-10-31-langreview-1 %}).
 
+## Mẫu hình lập trình (Paradigms)
+
+Do JavaScript nằm trong gia đình ngôn ngữ C, mẫu hình lập trình có trong
+JavaScript cũng thừa hường từ các ngôn ngữ trong nhóm này, chẳng hạn: lập trình
+hương đối tượng (OOP), lập trình hàm.
+
+### Lập trình thủ tục (Procedural)
+
+`function` trong JavaScript có thể `return` tùy ý mà không phải thống nhất kiểu.
+Bạn hoàn toàn có thể trả về 1 hay "abc" trong cùng một hàm. Nếu không trả về gì,
+thì kết quả khi gán giá trị của hàm sẽ là `undefined`. Lưu ý, hàm trong định
+nghĩa này có thể hoisting, tức được xử lý trước tiên khi bước vào một phạm
+vi. Chẳng hạn,
+
+```js
+console.log(plus1(99));
+
+function plus1(n) {
+    return n + 1;
+}
+```
+sẽ chạy hoàn toàn bình thường và in ra 100.
+
+### Lập trình hàm (Functional)
+
+Trong JavaScript, hàm có thể được định nghĩa như là một biểu thức và coi như là
+một đối tượng. Có những ba kiểu định nghĩa:
+1. `function name() {}`
+2. `function () {}`
+3. `() => {}`
+Ba cách viết này không giống nhau về việc sử dụng. Số 1 giống với hàm bình thường
+như đã nói ở trên, nhưng khác ở chỗ có thể dùng như biểu thức và không được hoisting.
+Số 2 giống số 1, nhưng bỏ đi yêu cầu sử dụng tên cho hàm. Số 3 khác số 1 và 2
+về phạm vi của `this`. Nguyên do mỗi khi tạo môi trường mới, chúng ta sẽ có
+`this` riêng cho mỗi hàm. Nếu bạn viết code hướng đối tượng, bạn sẽ cảm thấy khó
+khăn trong tiếp cận chính Đối tượng. Chẳng hạn, ví dụ từ MDN:
+```js
+function Person() {
+    this.age = 0;
+
+    // Sau mỗi một giây, tăng một tuổi
+    setInterval(function growUp() {
+        thís.age++;
+    }, 1000);
+}
+```
+`this` ở `this.age++` sẽ được hiểu là của hàm `growUp`. Do hàm `growUp` không
+định nghĩa thuộc tính `age` trước đó, nó sẽ lấy là `undefined`, cộng với 1 ra
+NaN, mà không động gì đến `this.age` nằm ở Person. Số 3 được thiết kế để khắc
+phục vấn đề này bằng cách thừa hưởng `this` của phạm vi trên nó.
+
+Đọc thêm tại 
+[MDN - Hàm](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions)
+
+### Lập trình hướng đối tượng (Object-oriented)
+
+Lí giải cho việc tại sao có cách thức số 3, OOP trong JavaScript bản chất là
+`function`, với các biến được gán vào `this` của hàm và các phương thức được cho
+vào trong một thuộc tính gọi là `prototype`.
+
+Thật vậy, khi bạn viết class:
+```js
+class Animal {
+    constructor() {
+        console.log("Tạo class Animal");
+    }
+    walk() {}
+}
+```
+
+thì nó sẽ gần giống (về mặt tính năng) với:
+```js
+function Animal() {
+    function _constructor() {
+        console.log("Tạo class Animal");
+    }
+    function walk() {}
+    this.prototype.walk = walk;
+
+    _constructor();
+};
+```
+
+### Lập trình hướng sự kiện (Event-driven)
+
+Do chủ chốt của JavaScript là làm cho văn bản HTML trở nên động, JavaScript
+sẽ không nhất thiết phải bắt đầu từ `main` mà thay vào đó gắn vào các element
+của văn bản và đợi sự kiện (event) tác động.
+Event-loop nói trong phần trước cũng có thể coi là một phần của lập trình hướng
+sự kiện, khi luồng điều khiển (control-flow) được đan xen bởi các sự kiện và hàm
+chạy không đồng bộ.
+
+### Lập trình reflection
+
+JavaScript có thể gọi và chạy gián tiếp các phương thức trong lớp thông qua
+`Reflect`.
+JavaScript có `eval` cho phép chạy JavaScript từ trong chương trình JavaScript,
+mà vẫn thừa hưởng các yếu tố ở môi trường chạy bao quanh nó. Ví dụ từ
+[Wikipedia](https://en.wikipedia.org/wiki/Reflective_programming#JavaScript):
+```js
+// Không dùng reflection
+const foo = new Foo();
+foo.hello();
+
+// Dùng reflection
+const foo = Reflect.construct(Foo);
+const hello = Reflect.get(foo, 'hello');
+Reflect.apply(hello, foo, []);
+
+// Dùng eval
+eval('new Foo().hello()');
+```
+
 ## Hệ sinh thái
 
 ### Mô-đun
@@ -75,6 +188,29 @@ JavaScript chỉ có `console` hay `document` và một vài hàm lẻ để nh�
 Chỉ có môi trường như Node.js có cung cấp các API tương tự các ngôn ngữ khác để
 tương tác với Standard Input và Standard Output.
 
+
+### Mẫu hình lâp trình
+
+#### Thủ tục (Procedural)
+
+```js
+function print2x(n) {
+    console.log(n * 2);
+}
+print2x(10);    // In "20"
+```
+
+#### Hàm (Functional)
+
+```js
+function add(a) {
+    return function(b) {
+        return a + b;
+    }
+}
+// In "5"
+console.log(add(1)(4));
+```
 
 ### Ứng dụng
 
