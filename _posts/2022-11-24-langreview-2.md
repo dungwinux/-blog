@@ -8,7 +8,7 @@ tags: language
 
 Số thứ 2 của sê-ri, chúng ta sẽ bàn nốt những đặc điểm còn lại của JavaScript.
 Nếu bạn chưa đọc phần trước, hãy xem:
-[Language Review #1: JavaScript]({% post_url 2022-10-31-langreview-1 %}).
+[Language Review #1: JavaScript](/-blog{% post_url 2022-10-31-langreview-1 %}).
 
 ## Hệ sinh thái
 
