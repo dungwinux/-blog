@@ -8,7 +8,7 @@ tags: language
 
 Số thứ 2 của sê-ri, chúng ta sẽ bàn nốt những đặc điểm còn lại của JavaScript.
 Nếu bạn chưa đọc phần trước, hãy xem:
-[Language Review #1: JavaScript](./2022-10-31-langreview-1.md).
+[Language Review #1: JavaScript]({{ "/_posts/2022-10-31-langreview-1.md" | relative_url }}).
 
 ## Thư viện - nhiều là tốt?
 
