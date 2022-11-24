@@ -10,7 +10,9 @@ Số thứ 2 của sê-ri, chúng ta sẽ bàn nốt những đặc điểm còn
 Nếu bạn chưa đọc phần trước, hãy xem:
 [Language Review #1: JavaScript]({% post_url 2022-10-31-langreview-1 %}).
 
-## Thư viện - nhiều là tốt?
+## Hệ sinh thái
+
+### Mô-đun
 
 JavaScript được thiết kế là ngôn ngữ script cho Web (Web scripting language).
 Đặc tả đầu tiên của JavaScript (ECMAScript 1st edition) có mô tả các Đối tượng
@@ -37,6 +39,8 @@ tại đang có Babel, SWC, esbuild.
 
 Node.js còn có hỗ trợ cho mô-đun gốc (native module, được biên tập trên OS gốc),
 cho phép JavaScript gọi hàm viết bằng C, C++ hay ngôn ngữ thấp tưong tự. 
+
+### Thư viện - nhiều là tốt?
 
 Hệ sinh thái JavaScript thay đổi liên tục, thư viện và khung phần mềm (framework)
 có nhiều vô kể. Điều này giúp cho lập trình viên không phải viết lại và code
