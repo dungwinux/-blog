@@ -196,4 +196,4 @@ phân phối và chạy đa luồng thông qua các Worker. Tính năng này h�
 Firefox, hay hỗ trợ một phần ở Node.js. Đây là một trong những ví dụ của tính năng
 không nằm trong tiêu chuẩn ECMAScript, nhưng đa số runtime hỗ trợ.
 
-_Còn tiếp?_
+Xem tiếp [_Phần 2_]({% post_url 2022-11-24-langreview-2 %})
