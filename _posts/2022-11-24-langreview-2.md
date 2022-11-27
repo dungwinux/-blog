@@ -189,30 +189,6 @@ JavaScript chỉ có `console` hay `document` và một vài hàm lẻ để nh�
 Chỉ có môi trường như Node.js có cung cấp các API tương tự các ngôn ngữ khác để
 tương tác với Standard Input và Standard Output.
 
-
-### Mẫu hình lâp trình
-
-#### Thủ tục (Procedural)
-
-```js
-function print2x(n) {
-    console.log(n * 2);
-}
-print2x(10);    // In "20"
-```
-
-#### Hàm (Functional)
-
-```js
-function add(a) {
-    return function(b) {
-        return a + b;
-    }
-}
-// In "5"
-console.log(add(1)(4));
-```
-
 ### Ứng dụng
 
 Nếu chương trình hay tác vụ bạn cần chỉ gói gọn dưới 50 dòng lệnh thì JavaScript
