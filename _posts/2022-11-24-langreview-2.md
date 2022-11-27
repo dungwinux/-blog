@@ -40,6 +40,7 @@ một đối tượng. Có những ba kiểu định nghĩa:
 1. `function name() {}`
 2. `function () {}`
 3. `() => {}`
+
 Ba cách viết này không giống nhau về việc sử dụng. Số 1 giống với hàm bình thường
 như đã nói ở trên, nhưng khác ở chỗ có thể dùng như biểu thức và không được hoisting.
 Số 2 giống số 1, nhưng bỏ đi yêu cầu sử dụng tên cho hàm. Số 3 khác số 1 và 2
@@ -106,7 +107,7 @@ chạy không đồng bộ.
 
 JavaScript có thể gọi và chạy gián tiếp các phương thức trong lớp thông qua
 `Reflect`.
-JavaScript có `eval` cho phép chạy JavaScript từ trong chương trình JavaScript,
+JavaScript cũng có `eval` cho phép chạy JavaScript dưới dang xâu,
 mà vẫn thừa hưởng các yếu tố ở môi trường chạy bao quanh nó. Ví dụ từ
 [Wikipedia](https://en.wikipedia.org/wiki/Reflective_programming#JavaScript):
 ```js
