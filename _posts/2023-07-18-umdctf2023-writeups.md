@@ -10,7 +10,7 @@ Editor note: Apologies for the long time between of this post and the contest.
 I have finished writing this long ago, but I forgot to edit and publish it.
 The original complete date of the draft is 2023-05-02.
 
-UMDCTF 2023 over the last weekend leaves me a great impression.
+UMDCTF 2023 over the weekend leaves me a great impression.
 Our team, SavedByTheShell, managed to finish in 10th place in scoreboard
 and 3rd place in academic rank.
 
@@ -134,8 +134,6 @@ Following the source address of memory copy call, we find out code likely to be 
 indirectly executed. It has multiple `MOVK` instructions.
 
 ![indirect function]({{ "/assets/images/umdctf2023_cleffa-2.png" | relative_url }})
-
-![Alt text](image.png)
 
 A little background info: in some architecture, with code size
 limitation, supporting moving(`MOV`) number into register can be difficult and require
