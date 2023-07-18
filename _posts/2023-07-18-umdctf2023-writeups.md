@@ -300,9 +300,9 @@ decoded = "".join(
 print(decoded)
 ```
 
-But it is not done yet, we now got a C/C++ source code:
+But it is not done yet, we now got a C or C++ source code:
 
-```C
+```c
 #include <stdio.h>
 
 #define LEN(array) sizeof(array) / sizeof(*array)
