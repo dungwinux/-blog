@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "PatriotCTF 2023 - write-ups"
-date: 2023-09-11 00:21:30 +0000
+date: 2023-09-11 21:00:00 +0000
 categories: security
 tags: ctf
 ---
