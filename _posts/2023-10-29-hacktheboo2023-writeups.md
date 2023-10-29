@@ -201,20 +201,21 @@ No hopes for shellcoding. Since there are few input fields, let's search for the
 
 The problems in this function are:
 - `printf((int64_t)&buf + 3)`, which has format string vulnerability, and
-- `read(0, &var_58h, 0x5e)`, which can be buffer-overflowed.
+- `read(0, &var_58h, 0x5e)`, which we can use to overflow buffer.
 
-Looking at the symbol list of the program, we also find the `print_flag` function, so this challenge is likely ret2win.
+Looking at the symbol list of the program, we also find the `read_flag` function, so this challenge is likely ret2win.
 
 Here is the devised plan.
-1. Leak the stack canary and return address using format string. Since this is x86_64, arguments after 6th one would be stored on the stack. This function allocates 0x80 bytes, while the Stack canary is at `rbp-0x10`, thus the distance is 0x70 bytes. Therefore, the canary is at the 21st argument (`1 + 6 + (0x70 / 8) = 21`). The return address is 0x10 bytes from it, so it would be in the 23rd argument.
+1. Leak the stack canary and return address using format string vulnerability. Since the target OS of the binary is x86_64 Linux, arguments after 6th one would be stored on the stack. This function allocates 0x80 bytes, while the Stack canary is at `rbp-0x10`, thus the distance is 0x70 bytes. Therefore, the canary is at the 21st argument (`1 + 6 + (0x70 / 8) = 21`). The return address is 0x10 bytes from it, so it would be in the 23rd argument.
 2. Using the leaked stack canary, we can now bypass the canary check.
 3. Based on the return address that is stored when program call `fb`, we can calculate the `main` address by subtracting it with 53 (`main+53` is right after `call fb` in `main`).
-4. Override the return address with `print_flag` address, calculated based on the leaked `main` address.
+4. Override the return address with `read_flag` address, calculated based on the leaked `main` address.
 
 
-The only tripping part of the challenge is that for the buffer overflow bug, we can only write 0x5e bytes to the buffer, while the return address is at 0x58. This means that we can only override the least significant (bottom) 6 bytes of the return address, but since we do not jump to stack nor heap address, this is not a big deal.
+The only weird part of the challenge is that for the buffer overflow bug, we can only write 0x5e bytes to the buffer, while the return address is at 0x58. This means that we can only override the least significant (bottom) 6 bytes of the return address, but since we do not jump to stack nor heap address, this is not a big deal.
 
-The payload for format string would be: `b'%21$p!%23$p!'`.
+The payload for format string would be: `b'%21$p!%23$p!'`. I used `!` for easier
+parsing of the output.
 
 And the payload for buffer overflow would be:
 
@@ -230,5 +231,5 @@ payload = (b''
 The flag should be printed out when we successfully exploit the program.
 
 Alternatively, it is also possible to leak the libc address by using the format
-string vulnerability. But since the `print_flag` function exists, we do not need
+string vulnerability. But since the `read_flag` function exists, we do not need
 to use any glibc function.
