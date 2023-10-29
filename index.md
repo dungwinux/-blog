@@ -14,12 +14,12 @@ Welcome
 
 <ul>
 {% for post in site.posts %}
-<li>
+<li style="list-style-type: none;">
     <sup>
         <i>
-            .date=/<time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>/
+            /<time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>/
         </i>
-    </sup>,
+    </sup>
     "<a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>",
 </li>
 {% endfor %}
