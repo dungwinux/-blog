@@ -20,7 +20,11 @@ Welcome
             /<time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>/
         </i>
     </sup>
-    "<a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>",
+    "
+    <b>
+        <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+    </b>
+    ",
 </li>
 {% endfor %}
 </ul>
