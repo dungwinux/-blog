@@ -217,10 +217,10 @@ Alternatively, it is also possible to leak the libc address by using the format 
 Here is the devised plan.
 1. Leak the stack canary and return address using the format string vulnerability. Because the target OS of the binary is x86_64 Linux, arguments after 6th one would be stored on the stack. This function allocates 0x80 bytes, while the stack canary is at `rbp-0x10`, thus the distance is 0x70 bytes. Therefore, the canary is at the 21st argument (`1 + 6 + (0x70 / 8) = 21`). The return address is 0x10 bytes after it, so it would be in the 23rd argument.
 2. Bypass the canary check using the leaked stack canary. It is at `rbp-0x10` in the function frame.
-3. Calculate the `main` address based on the return address that is stored when program call `fb`, which is subtracting return address with 53 (`main+53` is right after `call fb` in `main`).
+3. Calculate the `main` address based on the return address that is stored when program call `fb`, which is subtracting the return address with 53 (`main+53` is right after `call fb` in `main`).
 4. Override the return address with `read_flag` address that is calculated based on the leaked `main` address. Using the buffer overflow bug, we can write starting from `rbp-0x50`, with the maximum size of 0x5e bytes.
 
-The only "troublesome" part is that the distance between our vulnerable buffer and the return address is 0x58 bytes. This means we can override all the allocated memory after `rbp-0x50` on stack, saved `rbp`, and only the least significant (bottom) 6 bytes of the return address. However, because we do not jump to stack nor heap address which has different upper 2-byte, this is not a big deal.
+The only "troublesome" part is that the distance between our vulnerable buffer and the return address is 0x58 bytes. This means we can override all the allocated memory after `rbp-0x50` on stack (0x48 bytes), stack canary, saved `rbp`, and only the least significant (bottom) 6 bytes of the return address. However, because we do not jump to stack nor heap address which has different upper 2-byte, this is not a big deal.
 
 The payload for the format string would be: `b'%21$p!%23$p!'`. I used `!` for easier
 parsing of the output.
