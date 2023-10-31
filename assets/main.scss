@@ -13,8 +13,11 @@ code {
     color: mediumseagreen;
 }
 
+@import url("https://cdn.jsdelivr.net/npm/@xz/fonts@1/serve/mononoki.min.css");
+
 code {
     background-color: transparent;
+    font-family: 'mononoki', monospace;
 }
 
 .highlighter-rouge {
