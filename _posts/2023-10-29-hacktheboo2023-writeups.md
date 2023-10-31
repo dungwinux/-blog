@@ -133,7 +133,7 @@ This is the core of the `transform` function. With speculation, we can predict t
 
 This is not a first pwn that I solve, but the first one to have writeup on this blog. This would be a reference to any of my future pwn solve.
 
-Running `checksec` on our target, we identified that this program has no PIE and Stack is executable. Immediately, those made me think of ret2shellcode.
+Running `checksec` on our target, we identify that this program has no PIE and Stack is executable. Immediately, those made me think of ret2shellcode.
 
 ```
     Arch:     amd64-64-little
@@ -157,7 +157,7 @@ The `main` function is simple. Since we are looking forward to exploiting the pr
 
 Jackpot! We found a classic overflow bug in the program: `gets`. With the input allocated at `rbp-0x10` and `rbp` is pushed at the beginning of the function, we need to override `0x10 + 0x8 = 0x18` bytes before reaching the return address.
 
-Now that we are allowed to change the return address and Stack is executable, how can we return to the stack without knowing its address? The answer is simple: `push rsp`. What this x86 instruction does is pushing the `rsp` value onto the stack, and `rsp` is exactly the top of the stack (before pushing). Combining with a `ret`, we can change the `rip` to `rsp`, which is exactly what we wanted. Using `rp++`, we can find the ROP gadget we want at `0x418c22` (`push rsp; ret`). We are lucky not having to find the dynamic address since there are no PIE.
+Now that we are allowed to change the return address and stack is executable, how can we return to the stack without knowing its address? The answer is simple: `push rsp`. What this x86 instruction does is pushing the `rsp` value onto the stack, and `rsp` is exactly the top of the stack (before pushing). Combining with a `ret`, we can change the `rip` to `rsp`, which is exactly what we wanted. Using `rp++`, we can find the ROP gadget we want at `0x418c22` (`push rsp; ret`). We are lucky not having to find the dynamic address since there are no PIE.
 
 With the instruction pointer changing to the stack, what code do we write on the stack? As basic as it can be, I did an `execve` syscall with `/bin/sh` as the filename. [The syscall number for `execve` is 59](https://blog.rchapman.org/posts/Linux_System_Call_Table_for_x86_64/). For `argv` and `envp`, I set them to a null pointer. Since `"/bin/sh\0"` fits on 8 bytes (Little-endian 0x68732f6e69622f), one trick I tried was to push it onto the stack and use `rsp` as pointer to the string. The following is the final shellcode for `const char *const tmp[] = {NULL}; execve("/bin/sh", tmp, tmp);`:
 
@@ -215,12 +215,12 @@ Looking at the symbol list of the program, we also find the `read_flag` function
 Alternatively, it is also possible to leak the libc address by using the format string vulnerability, but I did not find a good place to jump to.
 
 Here is the devised plan.
-1. Leak the stack canary and return address using the format string vulnerability. Because the target OS of the binary is x86_64 Linux, arguments after 6th one would be stored on the stack. This function allocates 0x80 bytes, while the Stack canary is at `rbp-0x10`, thus the distance is 0x70 bytes. Therefore, the canary is at the 21st argument (`1 + 6 + (0x70 / 8) = 21`). The return address is 0x10 bytes after it, so it would be in the 23rd argument.
-2. Using the leaked stack canary, we can now bypass the canary check.
-3. Based on the return address that is stored when program call `fb`, we can calculate the `main` address by subtracting it with 53 (`main+53` is right after `call fb` in `main`).
-4. Override the return address with `read_flag` address, calculated based on the leaked `main` address.
+1. Leak the stack canary and return address using the format string vulnerability. Because the target OS of the binary is x86_64 Linux, arguments after 6th one would be stored on the stack. This function allocates 0x80 bytes, while the stack canary is at `rbp-0x10`, thus the distance is 0x70 bytes. Therefore, the canary is at the 21st argument (`1 + 6 + (0x70 / 8) = 21`). The return address is 0x10 bytes after it, so it would be in the 23rd argument.
+2. Bypass the canary check using the leaked stack canary. It is at `rbp-0x10` in the function frame.
+3. Calculate the `main` address based on the return address that is stored when program call `fb`, which is subtracting return address with 53 (`main+53` is right after `call fb` in `main`).
+4. Override the return address with `read_flag` address that is calculated based on the leaked `main` address. Using the buffer overflow bug, we can write starting from `rbp-0x50`, with the maximum size of 0x5e bytes.
 
-The only "troublesome" part of the challenge is that for the buffer overflow bug, we can only write 0x5e bytes to the buffer, while the return address is at 0x58. This means we can only override the least significant (bottom) 6 bytes of the return address. However, because we do not jump to stack nor heap address that has different upper 2-byte, this is not a big deal.
+The only "troublesome" part is that the distance between our vulnerable buffer and the return address is 0x58 bytes. This means we can override all the allocated memory after `rbp-0x50` on stack, saved `rbp`, and only the least significant (bottom) 6 bytes of the return address. However, because we do not jump to stack nor heap address which has different upper 2-byte, this is not a big deal.
 
 The payload for the format string would be: `b'%21$p!%23$p!'`. I used `!` for easier
 parsing of the output.
