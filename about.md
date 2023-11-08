@@ -21,3 +21,5 @@ I was also part of the team organizing UMassCTF 2022 and UMassCTF 2023.
 You are currently in the domain of my personal blog, where you may find contents
 related to CTF, (human & computer) languages, and some of my side interests.
 If you have any questions, email me, and I would be more than happy to answer.
+
+`c3`
