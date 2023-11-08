@@ -83,7 +83,7 @@ Through multiple layers, we find that:
 
 #### Verify Operation
 
-This part would spread out from the start of `main` function to before Decrypt Operation. This will always check for only one character, the first one in `argv[1]`. If it is correct, it will decrypt the program using it as a initialization value, else it will jump to a different function that prints out `ng` (ＮＧですか？). But there are only 4 variations:
+This part would spread out from the start of `main` function to before Decrypt Operation. This will always check for only one character, the first one in `argv[1]`. If it is correct, it will decrypt the program using it as a initialization value, else it will jump to a different function that prints out `ng` (ＮＧですか？). There are only 4 variations:
 1. One instruction. The program simply does a `cmp` with a constant value, then does a `mov` of same value to input it into the Decrypt Operation. (Why `mov` again?)
     ```s
     cmp edx, expect
@@ -98,7 +98,9 @@ This part would spread out from the start of `main` function to before Decrypt O
     cmp ..., expect2 / dec ...
     je ..., ...
     ```
-    In one case, I was confused when I cannot find the instruction that changes register flag before `test`, until I run ZydisInfo and learn that `dec` also modifies the register flags. The following python code finds the possible input:
+
+    (The `/` in code above means _or_.)
+    In one case, I was confused when I cannot find the instruction that changes register flag before `test`, until I run ZydisInfo and learn that `dec` also modifies the register flags. We can brute-force using the following python code:
     ```py
     [x for x in range(0xff) if x % devis1 == expect1 and x % devis2 == expect2]
     ```
@@ -138,7 +140,12 @@ Through multiple layers, it is consistent that there would be:
 -   An `add` with addend, located before the `mul`
 -   An assignment `mov ecx, ...` that set the devisor in the modulo operation. We simply look for the nearest one above the `idiv ecx`.
 
-All the above decryption parameters are different at each layer, so we must parse them to decrypt the data.
+All the above decryption parameters are different at each layer, so we must parse them. Then, we can quickly decrypt data using Python list comprehension:
+
+```py
+prev = ...  # Previous value, init with the flag character in the current layer
+[ch ^ (0xff & (prev := (overflowFix(prev * multiplier, 8) + addend) % modulo)) for ch in encrypted_data]
+```
 
 ### Semi-automated solve
 
@@ -148,7 +155,7 @@ I scripted in Python and used Capstone library for disassembling. I implemented 
 
 _Reconstructed image of my working terminal. Left: The script logs the parameters it found at stage 8, then asks me the solution of the Verify Operation. Top-right: A Python REPL interprets list comprehensions that brute-force the solution for variant 2 and 3 of Verify Operation. Bottom-right: ZydisInfo prints information on `dec edx` instruction._
 
-One lucky thing I encountered was when I try addressing the location of `main` function in binary. My solve script sets it to constant 0x10A0, but in reality some binaries have different start. For example, in the 22nd layer, the address of `main` is actually `0x10B0`, off by 0x10 bytes. But the previous 0x10 bytes still make valid instruction and does not corrupt the parsing of `main` code. 
+One lucky thing I encountered was when I try addressing the location of `main` function in binary. My solve script sets it to constant 0x10A0, but in reality some binaries have different start. For example, in the 22nd layer, the address of `main` is actually 0x10B0, off by 0x10 bytes. But those 0x10 bytes still make valid instructions and does not corrupt the parsing of `main` code. 
 
 ### Conclusion
 
