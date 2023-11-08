@@ -6,7 +6,7 @@ categories: security
 tags: ctf
 ---
 
-TSG had a wonderful CTF, although I consider the challenges extremely hard. I consumed most of play time in solving one - _T the weakest_ - because it is the coolest challenge I have ever played this year.
+TSG have a wonderful CTF for 2023, although I consider the challenges extremely hard. I consumed most of play time in solving one - _T the weakest_ - because it is the coolest challenge I have ever played this year.
 
 ### Description
 
@@ -161,9 +161,9 @@ One lucky thing I encountered was when I try addressing the location of `main` f
 
 The whole process took me 6 hours in total, with around 40 minutes running the script and just-in-time-solving the Verify Operation part. During the process, I reckoned that I could have run it through symbolic execution, but that would cost me a lot more time making the tool works, and I learned a lot more about x86 architecture this way.
 
-This [Matryoshka](https://en.wikipedia.org/wiki/Matryoshka_doll)-like mechanism reminds me of a malware type that unpacks actual payload only on execution. One layer of packing is fine, but what about 100 (like this challenge)? or 1000? This is where symbolic execution is needed. angr has this feature and runs on Python (which is quick to script on), so learning it goes straight into my bucket list after the CTF. It would be useful in the future.
+This [Matryoshka](https://en.wikipedia.org/wiki/Matryoshka_doll)-like mechanism reminds me of a malware type that unpacks actual payload only on execution. One layer of packing is fine, but what about 100 (like this challenge)? or 1000? This is where symbolic execution is needed. angr has this feature and runs on Python (which is quick to script on), so learning it goes straight into my bucket list after the CTF.
 
-Like PatriotCTF reduced_reduced_instruction_set, this challenges my understanding of both reversing and assembly skills. And I love it. I'm sincerely curious how they create this challenge.
+Like PatriotCTF's *reduced_reduced_instruction_set*, this challenges my understanding of both reversing and assembly skills. And I love it. I'm sincerely curious how they created this challenge.
 
 You can check out my script at [here](https://github.com/dungwinux/tsgctf2023-script).
 Hope you enjoy reading the writeup like how I felt when solving the challenge.
