@@ -69,7 +69,7 @@ I project that each program would only check one character of the flag, and it c
 
 ### Observe the pattern
 
-Since we know the flag follows that standard format (`TSGCTF{}`), we are guaranteed to check 7 versions of the program. The Execute Operation mostly remain the same. The dynamic parts are Copy Operation, Verify Operation and Decrypt Operation. The observations were done in Cutter.
+Since we know the flag follows the standard format (`TSGCTF{}`), we are guaranteed to check the first 7 versions of the program. The Execute Operation mostly remain the same. The dynamic parts are Copy Operation, Verify Operation and Decrypt Operation. The observations were done in Cutter.
 
 #### Copy Operation
 
@@ -79,7 +79,7 @@ Through multiple layers, we find that:
 -   `mov ecx, ...` would be anywhere between the start of `main` function and `rep movsb`. Since we only care the final result, we pick the closest one.
 -   `lea rsi, ...` would point to the data section. For the first 21 layers, it is constantly 0x2018 in the binary. Later, the offset changes so I have to parse the assembly instead.
     
-    For example, in the 22nd layer, we have `lea rsi, [rip + 0xf58]`. The address for the data would be 0xf58 bytes after the instruction. `rip` points to right after the highest byte of the instruction in memory. The instruction is located at `main+0x17`, the instruction size is 7, and `main` in this binary starts at 0x10B0. Thus, we can find the data in the binary at 0x10B0 + 0x17 + 7 + 0xf58 = 0x2026.
+    For example, in the 22nd layer, we have `lea rsi, [rip + 0xf58]` when disassembling raw code. The address for the data would be 0xf58 bytes after the instruction. `rip` points to right after the highest byte of the instruction in memory. The instruction is located at `main+0x17`, the instruction size is 7, and `main` in this binary starts at 0x10B0. Thus, we can find the data in the binary at 0x10B0 + 0x17 + 7 + 0xf58 = 0x2026.
 
 #### Verify Operation
 
@@ -99,7 +99,7 @@ This part would spread out from the start of `main` function to before Decrypt O
     je ..., ...
     ```
 
-    (The `/` in code above means _or_.)
+    (The `/` in code above means _diferent variations_.)
     In one case, I was confused when I cannot find the instruction that changes register flag before `test`, until I run ZydisInfo and learn that `dec` also modifies the register flags. We can brute-force using the following python code:
     ```py
     [x for x in range(0xff) if x % devis1 == expect1 and x % devis2 == expect2]
@@ -163,7 +163,7 @@ The whole process took me 6 hours in total, with around 40 minutes running the s
 
 This [Matryoshka](https://en.wikipedia.org/wiki/Matryoshka_doll)-like mechanism reminds me of a malware type that unpacks actual payload only on execution. One layer of packing is fine, but what about 100 (like this challenge)? or 1000? This is where symbolic execution is needed. angr has this feature and runs on Python (which is quick to script on), so learning it goes straight into my bucket list after the CTF.
 
-Like PatriotCTF's *reduced_reduced_instruction_set*, this challenges my understanding of both reversing and assembly skills. And I love it. I'm sincerely curious how they created this challenge.
+Like PatriotCTF's *reduced_reduced_instruction_set*, this challenges my understanding of both reversing and assembly skills. And I love it! I'm sincerely curious how they crafted this challenge.
 
 You can check out my script at [here](https://github.com/dungwinux/tsgctf2023-script).
 Hope you enjoy reading the writeup like how I felt when solving the challenge.
