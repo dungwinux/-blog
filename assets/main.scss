@@ -2,6 +2,14 @@
 # Only the main Sass file needs front matter (the dashes are enough)
 ---
 
+// SCSS is too static and cannot properly generate code
+// No light themes for you
+$text-color: #CCD1D1;
+$background-color: rgb(3, 7, 21);
+$brand-color: lightblue;
+$grey-color-light: darkgrey;
+$grey-color-dark: lightgrey;
+
 @import "{{ site.theme }}";
 
 pre,
@@ -10,7 +18,13 @@ code {
 }
 
 :not(pre) > code {
-    color: mediumseagreen;
+   color: mediumseagreen;
+}
+
+@media (prefers-color-scheme: dark) {
+    :not(pre) > code {
+        color: lightgreen;
+    }
 }
 
 @import url("https://cdn.jsdelivr.net/npm/@xz/fonts@1/serve/mononoki.min.css");
