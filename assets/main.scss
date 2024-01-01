@@ -20,6 +20,17 @@ code {
     font-family: 'mononoki', monospace;
 }
 
+.address-table {
+  font-family: 'mononoki', monospace;
+}
+.address-entry:hover {
+  list-style-type: '=> ';
+  color:red;
+}
+.address-entry {
+  list-style-type: none;
+}
+
 .highlighter-rouge {
     .highlight table td { padding: 5px; }
     .highlight table pre { margin: 0; }

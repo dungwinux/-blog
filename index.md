@@ -12,18 +12,15 @@ title: main()
 Welcome
 </h1>
 
-<ul>
+<ul class="address-table">
 {% for post in site.posts %}
-<li style="list-style-type: none;">
-    <sup>
-        <i>
-            /<time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>/
-        </i>
-    </sup>
+<li class="address-entry">
+    <i>
+        0x<time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y%m%d" }}</time>
+    </i>
     <b>
         <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
     </b>
-    ,
 </li>
 {% endfor %}
 </ul>
