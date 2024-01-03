@@ -7,7 +7,7 @@
 $text-color: #CCD1D1;
 $background-color: rgb(3, 7, 21);
 $brand-color: lightblue;
-$grey-color-light: darkgrey;
+$grey-color-light: rgba(128, 128, 128, 0.51);
 $grey-color-dark: lightgrey;
 
 @import "{{ site.theme }}";
