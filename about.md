@@ -6,8 +6,7 @@ permalink: /about/
 
 Hi! My name Dung Nguyen. Welcome to my page.
 
-At this moment, I'm an undergraduate senior at UMass Amherst, pursuing a degree in
-Computer Science. I study Computer Systems, Security, Compiler, and Software Development.
+At this moment, I'm a graduate at UMass Amherst, pursuing Master of Science in Computer Science. I study Computer Systems, Security, Compiler, and Software Development.
 
 During secondary school, I worked on my very first compiler:
 [vmath](https://winux8yt3.github.io/vmath/).

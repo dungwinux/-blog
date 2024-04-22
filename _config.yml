@@ -4,11 +4,11 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: dungwinux's golB
+title: d archive
 author: Nguyễn Tuấn Dũng
 email: 
 description: >- # this means to ignore newlines until "baseurl:"
-  Blog and notes of my interests.
+  I write what I find fascinating and worth documenting
 baseurl: "/-blog" # the subpath of your site, e.g. /blog
 url: "https://dungwinux.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 github_username: dungwinux
