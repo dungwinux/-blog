@@ -93,10 +93,16 @@ code {
       color: #960050;
     }
     .highlight .gd {
-      color: #49483e;
+      // color: #49483e;
+      // Need this to support dark theme
+      color: #f92672;
+      background-color: #ffdddd40;
     }
     .highlight .gi {
-      color: #49483e;
+      // color: #49483e;
+      // Need this to support dark theme
+      color: #a6e22e;
+      background-color: #ddffdd40;
     }
     .highlight .ge {
       color: #49483e;
