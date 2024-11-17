@@ -37,6 +37,10 @@ What can you do with a pyc then? Even without Python source code, you can still 
 
 How do I know it is 3.13? There is an open-source tool called [Decompyle++](https://github.com/zrax/pycdc) that can disassemble and decompile different version of Python uniformingly. Using its disassembler `pycdas`, we can meaningfully speculate the file.
 
+```bash
+pycdas --pycode-extra funny.pyc
+```
+
 ```yaml
 funny.pyc (Python 3.13)
 [Code]
@@ -448,7 +452,7 @@ Finally, `del key` and `del iv` can be combined into one line to match the line 
 -del iv
 ```
 
-From this point, only the line table differs. Except for the ASCII art, The rest of the code are guessed through trial-and-error. I used [biodiff](https://github.com/8051Enthusiast/biodiff) to compare pyc side-by-side. After 2 hours, I was able to reconstruct the whole Python source code with no differences in both bytecode and line table! The only difference is the timestamp in the header, which we can ignore. (It is _Thursday, October 31, 2024 3:27:40 PM_, but you can just do time travel in your system)
+From this point, only the line table differs. Except for the ASCII art, The rest of the code are guessed through trial-and-error. I used [biodiff](https://github.com/8051Enthusiast/biodiff) to compare pyc side-by-side. After 2 hours, I was able to reconstruct the whole Python source code with no differences in both bytecode and line table! The only difference is the timestamp in the header, which we can ignore. (It is _Thursday, October 31, 2024 3:27:40 PM UTC_, but you can just do time travel in your system)
 
 You can find my final reconstruction here: [dungwinux/1337up-live:funny/chal.py](https://github.com/dungwinux/1337up-live/blob/master/funny/chal.py)
 
