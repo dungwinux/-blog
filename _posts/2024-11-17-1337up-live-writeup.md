@@ -4,7 +4,7 @@ title: "1337UP LIVE CTF - Funny writeup"
 date: 2024-11-17 17:00:00 +0000
 categories: security
 tags: ctf
-excerpt: The challenges are challenging, and you should try it
+excerpt: The challenge is challenging, and you should try it
 ---
 
 Another great CTF, this time from Intigriti. Playing in team `SavedByTheShell`, I solved 3/4 challenges in rev category. Unfortunately, I decided to only do Funny writeup. Buckle up and let's dive into the details.
@@ -452,7 +452,7 @@ From this point, only the line table differs. Except for the ASCII art, The rest
 
 You can find my final reconstruction here: [dungwinux/1337up-live:funny/chal.py](https://github.com/dungwinux/1337up-live/blob/master/funny/chal.py)
 
-If you have read through this far, congratulation, because you have gone down the rabbit hole of pyc. I hope you learned something new through the challenge.
+If you have read through this far, congratulation, because you have gone down the rabbit hole of decompiling pyc. I hope you learned something new through the challenge.
 
 ### Final words
 
