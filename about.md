@@ -14,7 +14,7 @@ Written in Free Pascal, it can read commands, parse expression, and compute floa
 My interests in Computer Systems and Compiler started ever since.
 
 At UMass Amherst, I heaviliy study Computer System and Security.
-My favorite classes are [CompSci 335-535-635 series (Computer Architecture)](https://people.cs.umass.edu/~weems/homepage/courses/index.html) by Professor Charles Weems, and [CompSci 390R (Reverse Engineering)](https://pwn.umasscybersec.org/) by Steven Rossi and Gilbert Hoermann. My desire to reverse and study various Instruction Set Architectures become strong.
+My favorite classes are [CompSci 335-535-635 series (Computer Architecture)](https://people.cs.umass.edu/~weems/homepage/courses/index.html) by Professor Charles Weems, and [CompSci 390R (Reverse Engineering)](https://pwn.umasscybersec.org/) by Steven Rossi and Gilbert Hoermann. Those have made my desire to reverse and study various Instruction Set Architectures strong.
 
 In my free time, I play CTF for team SavedByTheShell in the reversing, pwn, and forensics categories.
 I was also part of the team organizing UMassCTF 2022, 2023, and 2024.
