@@ -43,6 +43,16 @@ code {
 }
 .address-entry {
   list-style-type: none;
+  // display: list-item;
+  // border-spacing: 8px 0;
+}
+.address-entry-time {
+  border-right: 8px solid transparent;
+  display: table-cell;
+}
+.address-entry-text {
+  // border-left: 8px solid transparent;
+  display: table-cell;
 }
 
 .highlighter-rouge {

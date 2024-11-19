@@ -15,10 +15,10 @@ Welcome
 <ul class="address-table">
 {% for post in site.posts %}
 <li class="address-entry">
-    <i>
-        0x<time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y%m%d" }}</time>
+    <i class="address-entry-time">
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y`%m%d" }}</time>
     </i>
-    <b>
+    <b class="address-entry-text">
         <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
     </b>
 </li>
