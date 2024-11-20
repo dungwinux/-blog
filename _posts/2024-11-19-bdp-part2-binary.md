@@ -130,7 +130,7 @@ ld `
   "D:/tools/armv6-rpi-linux-gnueabihf/armv6-rpi-linux-gnueabihf/sysroot/usr/lib/crtn.o"
 ```
 
-Now we got the binary with linker compiler error. Double check using `readelf`:
+Now we got the binary with zero linker compiler error. Double check using `readelf`:
 
 ```yaml
 Attribute Section: aeabi
