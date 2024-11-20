@@ -7,11 +7,12 @@ tags: linux, arm
 excerpt: How to create C binary by hacking compiler front-end and linker
 ---
 
-Last time, we take a look at the Blu-ray disc player and discovered that we can create a shared library and put it in place of another debugging library to do a code execution. Our objective is to compile a binary that can run on this player. We also saw that the binaries in its firmware are compiled against ARMv6KZ, and can use hard-float. After some extra [research](https://reviews.llvm.org/D18086), I realized they in fact are compiled by GCC at least with flag `-march=armv6z` (with the K implicitly-defined). The evidence is in the ELF metadata, where *Tag_CPU_arch* is `v6KZ` as we know, but *Tag_CPU_name* is simply `"6Z"`. For consistency, all the following commands assume using PowerShell as shell. If you would like to use for bash or other Unix-like shell, change `` ` `` (backtick) to `\` (backslash) for new line.
+Last time, we take a look at the Blu-ray disc player and discovered that we can create a shared library and put it in place of another debugging library to do a code execution. Our goal is to compile a binary named `libSegFault.so` that can be run on this player. We also saw that the binaries in its firmware are compiled against ARMv6KZ, and can use hard-float. After some extra [research](https://reviews.llvm.org/D18086), I realized they in fact are compiled by GCC at least with flag `-march=armv6z` (with the K implicitly-defined). The evidence is in the ELF metadata, where *Tag_CPU_arch* is `v6KZ` as we know, but *Tag_CPU_name* is simply `"6Z"`. For consistency, all the following commands assume using PowerShell as shell. If you would like to use for bash or other Unix-like shell, change `` ` `` (backtick) to `\` (backslash) for new line.
 
 Here is the code I will try to compile (based on the [blog post](http://www.malcolmstagg.com/bdp/firmware-less.html)):
 
 ```c
+// bootstrap.c
 #include <stdlib.h>
 
 __attribute__((constructor))
@@ -24,14 +25,14 @@ void libSample() {
 The code will execute _script.sh_ in the root of USB drive. As quick as I could, I grabbed the latest `arm-none-linux-gnueabihf` Arm GNU toolchain for Windows on [developer.arm.com](https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain), extracted and ran:
 
 ```powershell
-arm-none-linux-gnueabihf-gcc -c -fPIC test.c -march=armv6z -o libSegFault.o
+arm-none-linux-gnueabihf-gcc -c -fPIC bootstrap.c -march=armv6z -o libSegFault.o
 ```
 
 ```sh
 In file included from D:/tools/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-linux-gnueabihf/arm-none-linux-gnueabihf/libc/usr/include/endian.h:35,
                  from D:/tools/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-linux-gnueabihf/arm-none-linux-gnueabihf/libc/usr/include/sys/types.h:176,
                  from D:/tools/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-linux-gnueabihf/arm-none-linux-gnueabihf/libc/usr/include/stdlib.h:514,
-                 from test.c:1:
+                 from bootstrap.c:1:
 D:/tools/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-linux-gnueabihf/arm-none-linux-gnueabihf/libc/usr/include/bits/byteswap.h: In function '__bswap_16':
 D:/tools/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-linux-gnueabihf/arm-none-linux-gnueabihf/libc/usr/include/bits/byteswap.h:35:1: sorry, unimplemented: Thumb-1 'hard-float' VFP ABI
    35 | {
@@ -46,7 +47,7 @@ What if we use Clang to generate code instead? Shouldn't be too hard:
 clang --target=arm-none-linux-gnueabihf `
   --sysroot=D:\tools\arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-linux-gnueabihf\arm-none-linux-gnueabihf\libc `
   -march=armv6z+fp -mfloat-abi=hard -mfpu=vfpv2 `
-  test.c `
+  bootstrap.c `
   -c -fPIC -o libSegFault.o
 ```
 
@@ -103,7 +104,7 @@ ld --sysroot=... `
   crtendS.o crtn.o
 ```
 
-`$target` is the target triple of the toolchain, `$gcc_ver` is the version of gcc of the toolchain. Note that we need CRT compatible with ARMv6, and the previous GCC toolchain is compiled against ARMv7-A, so here I use [`armv6-rpi-linux-gnueabihf` GCC toolchain](https://github.com/tttapa/docker-arm-cross-toolchain) as the sysroot instead. Although that toolchain is compiled for Linux, we can reuse `ld.exe` found in the Arm GNU toolchain from earlier since linking is not architecture-dependant. Below is the command line I ran:
+`$target` is the target triple of the toolchain, `$gcc_ver` is the version of gcc of the toolchain. Note that we need CRT compatible with ARMv6, and the previous GCC toolchain is compiled against ARMv7-A, so here I use [`armv6-rpi-linux-gnueabihf` GCC toolchain](https://github.com/tttapa/docker-arm-cross-toolchain) as the sysroot instead. Although that toolchain is compiled for Linux, we can reuse `ld.exe` found in the Arm GNU toolchain from earlier since linking is not architecture-dependant. Below is the full command I executed:
 
 ```powershell
 ld `
