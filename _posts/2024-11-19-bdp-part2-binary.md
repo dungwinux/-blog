@@ -7,7 +7,7 @@ tags: linux, arm
 excerpt: How to create C binary by hacking compiler front-end and linker
 ---
 
-Last time, we look at the Blu-ray disc player and discovered that we can create a shared library and put it in place of another debugging library to do a code execution. Our objective is to compile a binary that can run on this player. We also saw that the binaries in its firmware are compiled against ARMv6KZ, and can use hard-float. After some extra [research](https://reviews.llvm.org/D18086), I realized they in fact are compiled by GCC at least with flag `-march=armv6z` (with the K implicitly-defined). The evidence is in the ELF metadata, where *Tag_CPU_arch* is v6KZ as we know, but *Tag_CPU_name* is simply "6Z". For consistency, all the following commands assume using PowerShell. If you would like to use for bash or other Unix-like shell, change `` ` `` (backtick) to `\` (backslash) for new line.
+Last time, we take a look at the Blu-ray disc player and discovered that we can create a shared library and put it in place of another debugging library to do a code execution. Our objective is to compile a binary that can run on this player. We also saw that the binaries in its firmware are compiled against ARMv6KZ, and can use hard-float. After some extra [research](https://reviews.llvm.org/D18086), I realized they in fact are compiled by GCC at least with flag `-march=armv6z` (with the K implicitly-defined). The evidence is in the ELF metadata, where *Tag_CPU_arch* is v6KZ as we know, but *Tag_CPU_name* is simply "6Z". For consistency, all the following commands assume using PowerShell. If you would like to use for bash or other Unix-like shell, change `` ` `` (backtick) to `\` (backslash) for new line.
 
 Here is the code I will try to compile (based on the [blog post](http://www.malcolmstagg.com/bdp/firmware-less.html)):
 
@@ -21,10 +21,10 @@ void libSample() {
 }
 ```
 
-The code will execute _script.sh_ in the root of USB drive. As quick as I could, I grabbed the latest `arm-none-linux-gnueabihf` Arm GNU toolchain on [developer.arm.com](https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain), extracted and ran:
+The code will execute _script.sh_ in the root of USB drive. As quick as I could, I grabbed the latest `arm-none-linux-gnueabihf` Arm GNU toolchain for Windows on [developer.arm.com](https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain), extracted and ran:
 
 ```bash
-arm-none-linux-gnueabihf-gcc -c -fPIC test.c -march=armv6kz -o libSegFault.o
+arm-none-linux-gnueabihf-gcc -c -fPIC test.c -march=armv6z -o libSegFault.o
 ```
 
 ```sh   
@@ -38,7 +38,7 @@ D:/tools/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-linux-gnueabihf/arm
       | ^
 ```
 
-For the first time in my life, I received a nice but irony compiler error: _sorry, unimplemented_. You're a compiler, how could this happen? StackOverflow [post](https://stackoverflow.com/questions/35132319/build-for-armv6-with-gnueabihf) saves the day again. For a long time, as far back as Linaro times, ARM toolchain has been compiled with `--with-arch=armv7-a`, and this means only ARMv7-A and Thumb-2 VFP is available. Great.
+For the first time in my life, I received a nice but funny compiler error: _sorry, unimplemented_. You're a compiler, how could this happen? But StackOverflow [post](https://stackoverflow.com/questions/35132319/build-for-armv6-with-gnueabihf) saves the day again. For a long time, as far back as Linaro times, ARM toolchain has been compiled with `--with-arch=armv7-a`, and this means only ARMv7-A, Thumb-2 is available. Great.
 
 What if we use Clang to generate code instead? Shouldn't be too hard:
 
@@ -79,7 +79,11 @@ File Attributes
   Tag_Virtualization_use: TrustZone
 ```
 
-Close enough! But now we still need to link the binary using linker into _.so_ file. This is actually not easy at all. I tried to call both `clang` and `gcc` with specifying the location of the source code, but both failed to find the correct path for _crtXXX.o_ files. What are these files, you ask? _crt_ stands for C Run-Time, and these are necessary to initialize the environment before running a C program. If you have done reverse-engineering on a Linux binary and saw [`libc_start_main`](https://stackoverflow.com/questions/62709030/what-is-libc-start-main-and-start), this is where the function is from. `_start` is the actual entry point of the executable and calls `libc_start_main`, which would in turn call `main`. Linking order is important, because it is also the order of the code inside the binary when the sections are merged. This StackOverflow [question](https://stackoverflow.com/questions/22160888/what-is-the-difference-between-crtbegin-o-crtbegint-o-and-crtbegins-o) describes exactly what we are wanting to do, and it has the answer. Just to be sure, I also run both `clang` & `gcc` with `-v` to see the parameter used for `ld` when linking. The general linking command is (assuming using a cross-compiler toolchain that has file structure similar to one built using crosstool-ng):
+Close enough! Also notice that here is just code generation, so we only used header files (`include/`) from the sysroot. You can technically swap any header files with minimal amount of issues in the outcome.
+
+But now we still need to link the binary using linker into _.so_ file. This is actually not easy at all. I tried to call both `clang` and `gcc` with specifying the location of the source code, but both failed to find the correct path for _crtXXX.o_ files. What are these files, you ask? _crt_ stands for C Run-Time, and these are necessary to initialize the environment before running a C program. If you have done reverse-engineering on a Linux binary and saw [`libc_start_main`](https://stackoverflow.com/questions/62709030/what-is-libc-start-main-and-start), this is where the function is from. `_start` is the actual entry point of the executable and calls `libc_start_main`, which would in turn call `main`.
+
+Linking order is also important, because it is the order of the code inside the binary when the sections are merged. This StackOverflow [question](https://stackoverflow.com/questions/22160888/what-is-the-difference-between-crtbegin-o-crtbegint-o-and-crtbegins-o) describes exactly what we are wanting to do, and it has the answer. Just to be sure, I also run both `clang` & `gcc` with `-v` to see the parameter used for `ld` when linking. The general linking command is (assuming using a cross-compiler toolchain that has file structure similar to one built using crosstool-ng):
 
 ```powershell
 ld --sysroot=... `
@@ -99,7 +103,7 @@ ld --sysroot=... `
   crtendS.o crtn.o
 ```
 
-`$target` is the target triple of the toolchain, `$gcc_ver` is the version of gcc of the toolchain. Note that we need CRT compatible with ARMv6, and the previous GCC toolchain is compiled against ARMv7-A, so here I use [`armv6-rpi-linux-gnueabihf` GCC toolchain](https://github.com/tttapa/docker-arm-cross-toolchain) as the sysroot instead. Although the toolchain is compiled for Linux, we can just reuse `ld` found in the Arm GNU toolchain since linking is not architecture-dependant. Below is the command line I ran:
+`$target` is the target triple of the toolchain, `$gcc_ver` is the version of gcc of the toolchain. Note that we need CRT compatible with ARMv6, and the previous GCC toolchain is compiled against ARMv7-A, so here I use [`armv6-rpi-linux-gnueabihf` GCC toolchain](https://github.com/tttapa/docker-arm-cross-toolchain) as the sysroot instead. Although that toolchain is compiled for Linux, we can reuse `ld.exe` found in the Arm GNU toolchain from earlier since linking is not architecture-dependant. Below is the command line I ran:
 
 ```powershell
 D:\tools\arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-linux-gnueabihf\arm-none-linux-gnueabihf\bin\ld.exe `
@@ -123,7 +127,7 @@ D:\tools\arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-linux-gnueabihf\arm
   "D:/tools/armv6-rpi-linux-gnueabihf/armv6-rpi-linux-gnueabihf/sysroot/usr/lib/crtn.o"
 ```
 
-Now we got the binary. Let's double check using `readelf`:
+Now we got the binary with linker compiler error. Double check using `readelf`:
 
 ```yaml
 Attribute Section: aeabi
@@ -147,10 +151,9 @@ File Attributes
   Tag_Virtualization_use: TrustZone
 ```
 
-Sounds good. Let's setup file and folder inside the USB drive for code execution:
+Sounds good! Let's setup file and folder inside the USB drive for code execution:
 
 ```
-`
 .
 └───bbb
     └───libSegFault.so
@@ -189,4 +192,4 @@ Serial          : 0000000000000000
 Linux version 2.6.35 (merger@rvds105) (gcc version 4.5.1 (GCC) ) #1 PREEMPT Fri Jan 20 12:08:15 JST 2012
 ```
 
-This is just the beginning. Next time, we will take a look at how to cross-compile any C program for this platform.
+This is just the beginning of the fun. Next time, we will take a look at how to cross-compile any C program for this platform.
