@@ -7,7 +7,7 @@ tags: linux, arm
 excerpt: How to create C binary by hacking compiler front-end and linker
 ---
 
-Last time, we take a look at the Blu-ray disc player and discovered that we can create a shared library and put it in place of another debugging library to do a code execution. Our goal is to compile a binary named `libSegFault.so` that can be run on this player. We also saw that the binaries in its firmware are compiled against ARMv6KZ, and can use hard-float. After some extra [research](https://reviews.llvm.org/D18086), I realized they in fact are compiled by GCC at least with flag `-march=armv6z` (with the K implicitly-defined). The evidence is in the ELF metadata, where *Tag_CPU_arch* is `v6KZ` as we know, but *Tag_CPU_name* is simply `"6Z"`. For consistency, all the following commands assume using PowerShell as shell. If you would like to use for bash or other Unix-like shell, change `` ` `` (backtick) to `\` (backslash) for new line.
+Last time, we took a look at the Blu-ray disc player and discovered that we can create a shared library and put it in place of another debugging library to do a code execution. Our goal is to compile a binary with name `libSegFault.so` that can be run on this player. We also saw that the binaries in its firmware are compiled against ARMv6KZ, and can use hard-float. After some extra [research](https://reviews.llvm.org/D18086), I realized they in fact are compiled by GCC at least with flag `-march=armv6z` (with the K implicitly-defined). The evidence is in the ELF metadata, where *Tag_CPU_arch* is `v6KZ` as we know, but *Tag_CPU_name* is simply `"6Z"`. For consistency, all the following commands assume using PowerShell as shell. If you would like to use for bash or other Unix-like shell, change `` ` `` (backtick) to `\` (backslash) for new line.
 
 Here is the code I will try to compile (based on the [blog post](http://www.malcolmstagg.com/bdp/firmware-less.html)):
 
@@ -25,7 +25,9 @@ void libSample() {
 The code will execute _script.sh_ in the root of USB drive. As quick as I could, I grabbed the latest `arm-none-linux-gnueabihf` Arm GNU toolchain for Windows on [developer.arm.com](https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain), extracted and ran:
 
 ```powershell
-arm-none-linux-gnueabihf-gcc -c -fPIC bootstrap.c -march=armv6z -o libSegFault.o
+arm-none-linux-gnueabihf-gcc -march=armv6z `
+  bootstrap.c `
+  -c -fPIC -o libSegFault.o
 ```
 
 ```sh
@@ -82,7 +84,7 @@ File Attributes
 
 Close enough! Also notice that here is just code generation, so we only used header files (`include/`) from the sysroot. You can technically swap any header files with minimal amount of issues in the outcome.
 
-But now we still need to link the binary using linker into _.so_ file. This is actually not easy at all. I tried to call both `clang` and `gcc` with specifying the location of the source code, but both failed to find the correct path for _crtXXX.o_ files. What are these files, you ask? _crt_ stands for C Run-Time, and these are necessary to initialize the environment before running a C program. If you have done reverse-engineering on a Linux binary and saw [`libc_start_main`](https://stackoverflow.com/questions/62709030/what-is-libc-start-main-and-start), this is where the function is from. `_start` is the actual entry point of the executable and calls `libc_start_main`, which would in turn call `main`.
+But now we still need to link the binary into a _.so_ file. This is actually not easy at all. I tried to link using `clang` and `gcc`, but both failed to find the correct path for _crtXXX.o_ files. What are these files? _crt_ stands for C Run-Time, and these are necessary to initialize the environment before running a C program. If you have done reverse-engineering on a Linux binary and saw [`libc_start_main`](https://stackoverflow.com/questions/62709030/what-is-libc-start-main-and-start), this is where the function is from. `_start` is the actual entry point of the executable and calls `libc_start_main`, which would in turn call `main`.
 
 Linking order is also important, because it is the order of the code inside the binary when the sections are merged. This StackOverflow [question](https://stackoverflow.com/questions/22160888/what-is-the-difference-between-crtbegin-o-crtbegint-o-and-crtbegins-o) describes exactly what we are wanting to do, and it has the answer. Just to be sure, I also run both `clang` & `gcc` with `-v` to see the parameter used for `ld` when linking. The general linking command is (assuming using a cross-compiler toolchain that has file structure similar to one built using crosstool-ng):
 
