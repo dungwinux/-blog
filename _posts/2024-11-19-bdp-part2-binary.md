@@ -41,7 +41,7 @@ D:/tools/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-linux-gnueabihf/arm
       | ^
 ```
 
-For the first time in my life, I received a nice but funny compiler error: _sorry, unimplemented_. You're a compiler, how could this happen? But StackOverflow [post](https://stackoverflow.com/questions/35132319/build-for-armv6-with-gnueabihf) saves the day again. For a long time, as far back as Linaro times, ARM toolchain has been compiled with `--with-arch=armv7-a`, and this means only ARMv7-A, Thumb-2 is available. Great.
+For the first time in my life, I received a nice and funny compiler error: _sorry, unimplemented_. You're a compiler, GCC, how could this happen? Yet, StackOverflow [post](https://stackoverflow.com/questions/35132319/build-for-armv6-with-gnueabihf) saves the day again. For a long time, ARM toolchain has been compiled with `--with-arch=armv7-a`, and this means only ARMv7-A, Thumb-2 is available. Great.
 
 What if we use Clang to generate code instead? Shouldn't be too hard:
 
@@ -84,7 +84,7 @@ File Attributes
 
 Close enough! Also notice that here is just code generation, so we only used header files (`include/`) from the sysroot. You can technically swap any header files with minimal amount of issues in the outcome.
 
-But now we still need to link the binary into a _.so_ file. This is actually not easy at all. I tried to link using `clang` and `gcc`, but both failed to find the correct path for _crtXXX.o_ files. What are these files? _crt_ stands for C Run-Time, and these are necessary to initialize the environment before running a C program. If you have done reverse-engineering on a Linux binary and saw [`libc_start_main`](https://stackoverflow.com/questions/62709030/what-is-libc-start-main-and-start), this is where the function is from. `_start` is the actual entry point of the executable and calls `libc_start_main`, which would in turn call `main`.
+But now we still need to link the binary into a _.so_ file. This is actually not easy at all. I tried to link using `clang` and `gcc`, but both failed to find the correct path for _crtXXX.o_ files. What are these files? _crt_ stands for C Run-Time, and these are necessary to manage (initialize and destroy) the environment of a C program. If you have done reverse-engineering on a Linux binary and saw [`libc_start_main`](https://stackoverflow.com/questions/62709030/what-is-libc-start-main-and-start), this is where the function is from. `_start` is the actual entry point of the executable and calls `libc_start_main`, which would in turn call `main`.
 
 Linking order is also important, because it is the order of the code inside the binary when the sections are merged. This StackOverflow [question](https://stackoverflow.com/questions/22160888/what-is-the-difference-between-crtbegin-o-crtbegint-o-and-crtbegins-o) describes exactly what we are wanting to do, and it has the answer. Just to be sure, I also run both `clang` & `gcc` with `-v` to see the parameter used for `ld` when linking. The general linking command is (assuming using a cross-compiler toolchain that has file structure similar to one built using crosstool-ng):
 
