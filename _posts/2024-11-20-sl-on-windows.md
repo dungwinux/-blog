@@ -15,7 +15,7 @@ First thing that we can observe is the include file _unistd.h_. This is truly a 
 #define usleep(x) thrd_sleep(&(struct timespec){.tv_nsec=(x)*1000}, NULL)
 ```
 
-Next, to draw on screen, the program depends on `ncurses`, a library for programming TUI (terminal UI) that is based on `terminfo`, which we can see through compile flag _-lncurses_ inside _Makefile_. But it was not designed for Windows at all, so I replace it with [PDCurses](https://github.com/wmcbrine/PDCurses). It still interface through `curses.h` header file so we don't have to rename the include, which is nice. Wanting to port to CMake as well, so I used [`vcpkg`](https://github.com/microsoft/vcpkg) to manage the dependency:
+Next, to draw on screen, the program depends on `ncurses`, a library for programming TUI (terminal UI) that is based on `terminfo`, which we can see through compile flag _-lncurses_ inside _Makefile_. But it was not designed for Windows at all, so I replace it with [PDCurses](https://github.com/wmcbrine/PDCurses). It still interfaces through `curses.h` header file so we don't have to rename the include, which is nice. Wanting to port to CMake as well, I used [`vcpkg`](https://github.com/microsoft/vcpkg) to manage the dependency:
 
 ```bash
 ./vcpkg install pdcurses
