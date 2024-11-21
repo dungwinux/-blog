@@ -4,6 +4,7 @@ title: "TSG CTF 2023 - T the weakest Write-up"
 date: 2023-11-07 20:30:00 +0000
 categories: security
 tags: ctf
+excerpt: Ghidra or not, it is always worth reading the assembly
 ---
 
 TSG have a wonderful CTF for 2023, although I consider the challenges extremely hard. I consumed most of play time in solving one - _T the weakest_ - because it is the coolest challenge I have ever played this year.

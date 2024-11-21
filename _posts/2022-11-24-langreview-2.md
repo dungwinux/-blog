@@ -4,6 +4,7 @@ title: "Language Review #2: JavaScript (p2)"
 date: 2022-11-24 16:30:00 +0000
 categories: code
 tags: language
+excerpt: Yet another high level language in C-family
 ---
 
 Số thứ 2 của sê-ri, chúng ta sẽ bàn nốt những đặc điểm còn lại của JavaScript.

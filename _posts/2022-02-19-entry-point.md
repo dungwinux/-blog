@@ -3,6 +3,7 @@ layout: post
 title: "Entry point"
 date: 2022-02-19 08:00:00 +0000
 categories: code
+excerpt: Everything has a start
 ---
 
 Cho dù bạn viết bất cứ ngôn ngữ nào, luôn có một điểm khởi đầu cho chương

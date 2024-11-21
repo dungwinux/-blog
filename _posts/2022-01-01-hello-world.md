@@ -3,6 +3,7 @@ layout: post
 title: "Hello, World!"
 date: 2022-01-01 08:00:00 +0000
 categories: code
+excerpt: Welcome to the first post on the website
 ---
 
 ```pascal

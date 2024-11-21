@@ -4,6 +4,7 @@ title: "Language Review #1: JavaScript"
 date: 2022-10-31 05:00:00 +0000
 categories: code
 tags: language
+excerpt: Release ASAP, just like a startup
 ---
 
 Chào mừng bạn đến với sêri mới của blog: Language Review. Sêri này sẽ đi sâu

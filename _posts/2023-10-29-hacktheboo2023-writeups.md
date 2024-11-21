@@ -4,6 +4,7 @@ title: "Hack The Boo 2023 - Competition - write-ups"
 date: 2023-10-29 19:30:00 +0000
 categories: security
 tags: ctf
+excerpt: Honing my skills while catching up with the trends
 ---
 
 It seems like HackTheBox nailed another good CTF this year. The challenges are beginner-friendly while at the same time being trendy. I will highlight cool ones in this blog post. My solve scripts will be available at [here](https://github.com/dungwinux/hacktheboo2023-script).

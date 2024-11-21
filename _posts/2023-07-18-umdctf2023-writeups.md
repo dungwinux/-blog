@@ -4,6 +4,7 @@ title: "UMDCTF 2023 - write-ups"
 date: 2023-07-18 17:00:00 +0000
 categories: security
 tags: ctf
+excerpt: Working hard toward goal can bring great success
 ---
 
 Editor note: Apologies for the long time between of this post and the contest.

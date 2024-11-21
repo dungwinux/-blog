@@ -4,6 +4,7 @@ title: "PatriotCTF 2023 - write-ups"
 date: 2023-09-11 21:00:00 +0000
 categories: security
 tags: ctf
+excerpt: You can reverse-reverse-engineering (forward engineering?) a VM
 ---
 
 PatriotCTF 2023 was interesting, so I thought that I might document

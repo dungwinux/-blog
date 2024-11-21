@@ -4,6 +4,7 @@ title: "UMass CTF 2022 Postmortem"
 date: 2022-04-05 04:00:00 +0000
 categories: security
 tags: ctf
+excerpt: Inspired by Jakob's previous year postmortem
 ---
 
 _Inspired by the [previous year postmortem](https://jakob.space/blog/umass-ctf-2021-postmortem.html) by Jakob._
