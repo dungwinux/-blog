@@ -17,12 +17,12 @@ code {
     border: none;
 }
 
-:not(pre) > code {
+:not(pre, a) > code {
    color: mediumseagreen;
 }
 
 @media (prefers-color-scheme: dark) {
-    :not(pre) > code {
+    :not(pre, a) > code {
         color: lightgreen;
     }
 }
