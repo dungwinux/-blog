@@ -18,9 +18,10 @@ Welcome
     <i class="address-entry-time">
         <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y`%m%d" }}</time>
     </i>
-    <b class="address-entry-text">
-        <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-    </b>
+    <div class="address-entry-text">
+        <b><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></b>
+        <div style="font-size:small">{{ post.excerpt }}</div>
+    </div>
 </li>
 {% endfor %}
 </ul>
