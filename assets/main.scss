@@ -37,7 +37,7 @@ code {
 .address-table {
   font-family: 'mononoki', monospace;
 }
-.address-entry:hover, .address-entry:has(.address-entry-time > a:focus) {
+.address-entry:hover, .address-entry:has(.address-entry-text a:focus) {
   list-style-type: '=> ';
   time {
     color:red;
