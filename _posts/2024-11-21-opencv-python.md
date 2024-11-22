@@ -25,10 +25,10 @@ But the Python code still does not run. Thus, I decided to make myself a build.
 Now, many online solutions are pretty manual: `git clone`, `apt install`, etc. Instead, I devised a solution that utilizes the tools for Python: `pip` and `conda`. (`mamba` is `conda`-compatible, so the instructions apply to `mamba` as well).
 We will perform on Ubuntu and `bash`, other environment can also try with few adjustments.
 
-First, we create a new environment using `conda`. Here I chose the name _compvision_ and selected python 3.11. Since NVIDIA has provided conda package for the CUDA SDK, I include it in the command:
+First, we create a new environment using `conda`. Here I chose the name _compvision_ and selected python 3.11. Since NVIDIA has provided conda package for the CUDA SDK, I include it in the command. And I also add _libva_ for Intel VA-API for building OpenCL in OpenCV:
 
 ```bash
-conda create -n compvision python=3.11 cuda cudnn -c nvidia
+conda create -n compvision python=3.11 cuda cudnn tbb libva -c nvidia
 ```
 
 There is only one small issue in the package which makes `cicc` invisible. This is necessary if you are targeting specific `CUDA_ARCH_BIN`. We can fix it by creating a link in `bin` folder of the virtual environment.
@@ -37,17 +37,17 @@ There is only one small issue in the package which makes `cicc` invisible. This 
 ln -s $CONDA_PREFIX/nvvm/bin/cicc $CONDA_PREFIX/bin/cicc
 ```
 
-Now we will build from source _opencv-python_ using `pip`. Since we are building against CUDA, we must use the _contrib_ variant. And if you don't need GUI interface like me (using OpenCV through Jupyter notebook), then you can opt-in the _headless_ variant. I also disabled OpenCL since the build would try compiling Intel VAAPI and fail, and NVIDIA Video SDK since I don't need it. The following is my build command:
+Now we will build from source _opencv-python_ using `pip`. Since we are building against CUDA, we must use the _contrib_ variant. And if you don't need GUI interface like me (using OpenCV through Jupyter notebook), then you can opt-in the _headless_ variant. I also disabled NVIDIA Video Codec SDK since I don't need it. The following is my build command:
 
 ```bash
 CMAKE_ARGS="\
   -DWITH_CUDA=ON -DWITH_CUDNN=ON -DOPENCV_DNN_CUDA=ON \
-  -DWITH_NVCUVID=OFF -DCUDA_ARCH_BIN=7.5 -DWITH_CUBLAS=ON \
-  -DWITH_OPENCL=OFF \
+  -DWITH_NVCUVID=OFF -DWITH_NVCUVENC=OFF -DWITH_CUBLAS=ON \
+  -DCUDA_ARCH_BIN=7.5 -DWITH_TBB=ON \
   " pip install --no-binary opencv-contrib-python-headless opencv-contrib-python-headless
 ```
 
-Optionally, if you like the library to run faster while trading off floating-point arithmetic precision, you can add `-DENABLE_FAST_FATH=ON -DCUDA_FAST_MATH=ON` in `CMAKE_ARGS`. You also can find more compile examples/flags in [StackOverflow](https://stackoverflow.com/questions/70334087/how-to-build-opencv-from-source-with-python-binding) and [OpenCV docs](https://docs.opencv.org/4.x/db/d05/tutorial_config_reference.html).
+Optionally, if you like the library to run faster while trading off floating-point arithmetic precision, you can add `-DENABLE_FAST_FATH=ON -DCUDA_FAST_MATH=ON` in `CMAKE_ARGS`. You also can find more compile examples/flags in [StackOverflow](https://stackoverflow.com/questions/70334087/how-to-build-opencv-from-source-with-python-binding), [OpenCV docs](https://docs.opencv.org/4.x/db/d05/tutorial_config_reference.html), and [OpenCV GitHub CMakeLists.txt](https://github.com/opencv/opencv/blob/4.x/CMakeLists.txt).
 
 Now you can go have a coffee break while waiting for it to build. For this part, it is likely there are multiple compiler errors due to dependencies, and I will not account for them here since it varies depending on the machine. The majority of issues would likely be missing libraries or files located in a different path. If you are using `apt`, you can use `apt-file` to search for packages including the missing files.
 
@@ -56,6 +56,7 @@ After the build is complete (which took me roughly 30 minutes), we can check in 
 ```py
 import cv2
 print(cv2.getBuildInformation())
+print(cv2.cuda.getCudaEnabledDeviceCount())
 ```
 
 And there we go:
@@ -89,4 +90,8 @@ General configuration for OpenCV 4.10.0 =====================================
       AVX2 (36 files):           + SSSE3 SSE4_1 POPCNT SSE4_2 FP16 FMA3 AVX AVX2
       AVX512_SKX (5 files):      + SSSE3 SSE4_1 POPCNT SSE4_2 FP16 FMA3 AVX AVX2 AVX_512F AVX512_COMMON AVX512_SKX
 ...
+```
+
+```
+1
 ```
