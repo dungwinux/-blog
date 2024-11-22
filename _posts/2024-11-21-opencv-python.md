@@ -37,7 +37,7 @@ There is only one small issue in the package which makes `cicc` invisible. This 
 ln -s $CONDA_PREFIX/nvvm/bin/cicc $CONDA_PREFIX/bin/cicc
 ```
 
-Now we will build from source _opencv-python_ using `pip`. Since we are building against CUDA, we must use the _contrib_ variant. And if you don't need GUI interface like me (using OpenCV through Jupyter notebook), then you can opt-in the _headless_ variant. I also disabled OpenCL since the build would try compiling Intel VAAPI and fail. The following is my build command:
+Now we will build from source _opencv-python_ using `pip`. Since we are building against CUDA, we must use the _contrib_ variant. And if you don't need GUI interface like me (using OpenCV through Jupyter notebook), then you can opt-in the _headless_ variant. I also disabled OpenCL since the build would try compiling Intel VAAPI and fail, and NVIDIA Video SDK since I don't need it. The following is my build command:
 
 ```bash
 CMAKE_ARGS="\
