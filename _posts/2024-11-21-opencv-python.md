@@ -24,7 +24,7 @@ But the Python code still does not run. Thus, I decided to make myself a build.
 
 Now, many online solutions are pretty manual: `git clone`, `apt install`, etc. Instead, I devised a solution that utilizes the tools for Python: `pip` and `conda`. (`mamba` is `conda`-compatible, so the instructions apply to `mamba` as well)
 
-First, we create a new environment using `conda`. Here I chose the name _compvision_ and selected python 3.11. Since NVIDIA has provided conda package for the SDK, I also added it in the command:
+First, we create a new environment using `conda`. Here I chose the name _compvision_ and selected python 3.11. Since NVIDIA has provided conda package for the CUDA SDK, I include it in the command:
 
 ```bash
 conda create -n compvision python=3.11 cuda cudnn -c nvidia
@@ -36,7 +36,7 @@ There is only one small issue in the package which makes `cicc` invisible. This 
 ln -s $CONDA_PREFIX/nvvm/bin/cicc $CONDA_PREFIX/bin/cicc
 ```
 
-Now we will build from source _opencv-python_ using `pip`. Since we are building against CUDA, we need the _contrib_ variant instead. And if you don't need GUI interface like me (using OpenCV through Jupyter notebook), then you can opt-in _headless_ variant. I also disabled OpenCL since the build would try compiling Intel VAAPI and fail:
+Now we will build from source _opencv-python_ using `pip`. Since we are building against CUDA, we must use the _contrib_ variant. And if you don't need GUI interface like me (using OpenCV through Jupyter notebook), then you can opt-in the _headless_ variant. I also disabled OpenCL since the build would try compiling Intel VAAPI and fail. The following is my build command:
 
 ```bash
 CMAKE_ARGS="-DWITH_CUDA=ON -DWITH_CUDNN=ON -DOPENCV_DNN_CUDA=ON -DWITH_NVCUVID=OFF -DCUDA_ARCH_BIN=7.5 -DWITH_CUBLAS=ON -DWITH_OPENCL=OFF" pip install --no-binary opencv-contrib-python-headless opencv-contrib-python-headless
@@ -44,7 +44,7 @@ CMAKE_ARGS="-DWITH_CUDA=ON -DWITH_CUDNN=ON -DOPENCV_DNN_CUDA=ON -DWITH_NVCUVID=O
 
 Optionally, if you like the library to run faster while trading off floating-point arithmetic precision, you can add `-DENABLE_FAST_FATH=ON -DCUDA_FAST_MATH=ON` in `CMAKE_ARGS`. You also can find more compile examples/flags in [StackOverflow](https://stackoverflow.com/questions/70334087/how-to-build-opencv-from-source-with-python-binding) and [OpenCV docs](https://docs.opencv.org/4.x/db/d05/tutorial_config_reference.html).
 
-Now you can go have a coffee break while waiting for it to build. For this part, it is likely there are multiple compiler errors due to dependencies, and I will not account for them here since it varies depending on the machine. The majority would likely be missing libraries or files putting in unexpected location. If you are using `apt`, you can use `apt-file` to search for packages including the missing files.
+Now you can go have a coffee break while waiting for it to build. For this part, it is likely there are multiple compiler errors due to dependencies, and I will not account for them here since it varies depending on the machine. The majority of issues would likely be missing libraries or files located in a different path. If you are using `apt`, you can use `apt-file` to search for packages including the missing files.
 
 After the build is complete (which took me roughly 30 minutes), we can check in Python by:
 
