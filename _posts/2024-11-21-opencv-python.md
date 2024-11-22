@@ -22,7 +22,8 @@ The performance is not terrible, to be honest, but it does not match the scale o
 I had a little hope when I saw [this](https://github.com/cudawarped/opencv-python-cuda-wheels) project that builds _opencv-python_ against CUDA, Nvidia Video Codec SDK and cuDNN.
 But the Python code still does not run. Thus, I decided to make myself a build.
 
-Now, many online solutions are pretty manual: `git clone`, `apt install`, etc. Instead, I devised a solution that utilizes the tools for Python: `pip` and `conda`. (`mamba` is `conda`-compatible, so the instructions apply to `mamba` as well)
+Now, many online solutions are pretty manual: `git clone`, `apt install`, etc. Instead, I devised a solution that utilizes the tools for Python: `pip` and `conda`. (`mamba` is `conda`-compatible, so the instructions apply to `mamba` as well).
+We will perform on Ubuntu and `bash`, other environment can also try with few adjustments.
 
 First, we create a new environment using `conda`. Here I chose the name _compvision_ and selected python 3.11. Since NVIDIA has provided conda package for the CUDA SDK, I include it in the command:
 
@@ -39,7 +40,11 @@ ln -s $CONDA_PREFIX/nvvm/bin/cicc $CONDA_PREFIX/bin/cicc
 Now we will build from source _opencv-python_ using `pip`. Since we are building against CUDA, we must use the _contrib_ variant. And if you don't need GUI interface like me (using OpenCV through Jupyter notebook), then you can opt-in the _headless_ variant. I also disabled OpenCL since the build would try compiling Intel VAAPI and fail. The following is my build command:
 
 ```bash
-CMAKE_ARGS="-DWITH_CUDA=ON -DWITH_CUDNN=ON -DOPENCV_DNN_CUDA=ON -DWITH_NVCUVID=OFF -DCUDA_ARCH_BIN=7.5 -DWITH_CUBLAS=ON -DWITH_OPENCL=OFF" pip install --no-binary opencv-contrib-python-headless opencv-contrib-python-headless
+CMAKE_ARGS="\
+  -DWITH_CUDA=ON -DWITH_CUDNN=ON -DOPENCV_DNN_CUDA=ON \
+  -DWITH_NVCUVID=OFF -DCUDA_ARCH_BIN=7.5 -DWITH_CUBLAS=ON \
+  -DWITH_OPENCL=OFF \
+  " pip install --no-binary opencv-contrib-python-headless opencv-contrib-python-headless
 ```
 
 Optionally, if you like the library to run faster while trading off floating-point arithmetic precision, you can add `-DENABLE_FAST_FATH=ON -DCUDA_FAST_MATH=ON` in `CMAKE_ARGS`. You also can find more compile examples/flags in [StackOverflow](https://stackoverflow.com/questions/70334087/how-to-build-opencv-from-source-with-python-binding) and [OpenCV docs](https://docs.opencv.org/4.x/db/d05/tutorial_config_reference.html).
