@@ -27,7 +27,7 @@ int main() {
 }
 ```
 
-But note that in C and C++, you can cast to a type. Which means if an ASCII string is in an executable region (this is important), I can cast it into a function:
+But note that in C and C++, you can cast to a type. Which means I can cast an ASCII string into a function:
 
 
 ```cpp
@@ -40,7 +40,7 @@ char const add[] EXECPERM = "\x8d\x04\x0a\xc3";
 #endif
 ```
 
-or even an array:
+or even from an array into a function:
 
 ```cpp
 // Non-portable. x86-64 Little-endian only
@@ -51,7 +51,7 @@ int const add[] EXECPERM = {0xc30a048d};
 #endif
 ```
 
-And it should function like an `add` function. This is extremely useful if you want to embed one whole function in assembly and do not want to deal with GNU as, MASM, etc. I used this in one of my challenges on MinutemanCTF Training Platform as you could see here: [dungwinux:minuteman24-rev:inception/inception.c](https://github.com/dungwinux/minuteman24-rev/blob/master/inception/inception.c)
+And it should function like an `add` function given the variable is in an executable region (else you will be stopped by NX bit or similar). This is extremely useful if you want to embed one whole function in assembly and do not want to deal with GNU as, MASM, etc. I used this in one of my challenges on MinutemanCTF Training Platform as you could see here: [dungwinux:minuteman24-rev:inception/inception.c](https://github.com/dungwinux/minuteman24-rev/blob/master/inception/inception.c)
 
 On the other hand, say, you want instead a function that holds and preserves the variables. Tranditionally, this can be done through static variables.
 
