@@ -45,9 +45,9 @@ or even from an array into a function:
 ```cpp
 // Non-portable. x86-64 Little-endian only
 #ifdef __linux__ 
-int const add[] EXECPERM = {0xc337048d};
+long const add[] EXECPERM = {0xc337048d};
 #elif _WIN32
-int const add[] EXECPERM = {0xc30a048d};
+long const add[] EXECPERM = {0xc30a048d};
 #endif
 ```
 
