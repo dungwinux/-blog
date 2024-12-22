@@ -23,7 +23,7 @@ int do_math(binary_fun fun, int a, int b) {
     return fun(a, b);
 }
 int main() {
-    do_math(add, 1, 2);     // return 3
+    return do_math(add, 1, 2);      // return 3
 }
 ```
 
@@ -38,6 +38,9 @@ char const add[] EXECPERM = "\x8d\x04\x37\xc3";
 #elif _WIN32
 char const add[] EXECPERM = "\x8d\x04\x0a\xc3";
 #endif
+int main() {
+    do_math((binary_fun)add, 1, 2); // return 3
+}
 ```
 
 or even from an array into a function:
@@ -49,6 +52,9 @@ long const add[] EXECPERM = {0xc337048d};
 #elif _WIN32
 long const add[] EXECPERM = {0xc30a048d};
 #endif
+int main() {
+    do_math((binary_fun)add, 1, 2); // return 3
+}
 ```
 
 And it should function like an `add` function given the variable is in an executable region (else you will be stopped by NX bit or similar). This is extremely useful if you want to embed one whole function in assembly and do not want to deal with GNU as, MASM, etc. I used this in one of my challenges on MinutemanCTF Training Platform as you could see here: [dungwinux:minuteman24-rev:inception/inception.c](https://github.com/dungwinux/minuteman24-rev/blob/master/inception/inception.c)
