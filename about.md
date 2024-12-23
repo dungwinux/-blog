@@ -23,6 +23,6 @@ Here in the domain of my personal blog, you may find contents
 related to CTF, human & programming languages, and some of my side interests.
 If you have any questions, email me, and I would be more than happy to answer.
 
-In case you wonder how to pronounce my first name, you can try _Jung_ as in [_Carl Jung_](https://en.wikipedia.org/wiki/Carl_Jung). If you are a linguistic, here is the IPA: [zʊwŋ͡m˦ˀ˥]
+In case you wonder how to pronounce my first name, you can try _Jung_ as in [_Carl Jung_](https://en.wikipedia.org/wiki/Carl_Jung). If you are a linguist, here is the IPA: [zʊwŋ͡m˦ˀ˥]
 
 `c3`
