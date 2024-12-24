@@ -195,8 +195,6 @@ Serial          : 0000000000000000
 Linux version 2.6.35 (merger@rvds105) (gcc version 4.5.1 (GCC) ) #1 PREEMPT Fri Jan 20 12:08:15 JST 2012
 ```
 
-This is just the beginning of the fun. Next time, we will take a look at how to cross-compile any C program for this platform.
-
 ### Bonus
 
 If your `clang` or `gcc` can correctly find the path of all _crtXXX.o_ files, then great. Instead of going the hardcore way like above, you could just add flag `-fuse-ld=<path to ld>`.
