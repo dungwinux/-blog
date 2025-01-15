@@ -17,12 +17,12 @@ Intigriti 1337UP LIVE - Best Write-up. See [X/Twitter post](https://x.com/intigr
 
 ### October 7, 2024
 
-Released: _It's Not Easy Being Green: On the Energy Efficiency of Programming Languages_ (Nicolas van Kempen, Hyuk-Je Kwon, Dung Tuan Nguyen, Emery D. Berger). Link to [arxiv](https://arxiv.org/abs/2410.05460).
+Released: _It's Not Easy Being Green: On the Energy Efficiency of Programming Languages_ (Nicolas van Kempen, Hyuk-Je Kwon, Dung Tuan Nguyen, Emery D. Berger). We worked together for 2 years investigating energy consumption in programming languages and current claims of it. This is my first paper submitted to [arxiv](https://arxiv.org/abs/2410.05460).
 
 ### January - April, 2023
 
-Participated in MITRE eCTF. Our team, UMazda, secured 9th place out of 16 teams. Despite only able to attack a few numbers of designs, I learned a lot about designing secure communication protocols, embedded programming in Rust, and porting code from C to Rust. [Credential link](https://credsverse.com/credentials/caaf493d-d647-42b0-8e0c-e26836fca77c).
+Participated in MITRE eCTF. Our team, UMazda, secured 9th place out of 16 teams. Despite only able to attack a few numbers of designs, I learned a lot about designing secure communication protocols, embedded programming in Rust, and porting code from C to Rust. [Credential link](https://credsverse.com/credentials/caaf493d-d647-42b0-8e0c-e26836fca77c). Design source code can be found [here](https://gitlab.com/umass-mitre-ectf/2023-ectf-design).
 
 ### August 23, 2016
 
-[Commited](https://github.com/winux8yt3/vmath/commit/99494276082fe436df3922cce6825cd893080d6b) my first interpreter and project to GitHub. Originally, this project is published on SourceForge under the name [_√Math Xplorer_](https://sourceforge.net/projects/vmath-xplorer/). But I could not understand how to handle code on SourceForge, so I moved the whole project to GitHub after learning about it. This is also the first time I experiemented with VS Code to write and push code in Git repository. As to the versioning rationale, I was heavily inspired by Windows build number at the time.
+[Commited](https://github.com/winux8yt3/vmath/commit/99494276082fe436df3922cce6825cd893080d6b) my first interpreter and project to GitHub. Originally, this project is published on SourceForge under the name [_√Math Xplorer_](https://sourceforge.net/projects/vmath-xplorer/). But I could not understand how to handle Mercurial on SourceForge, so I moved the whole project to GitHub for git. This is also the first time I experiemented with VS Code to write and push code in git repository. As to the versioning rationale, I was heavily inspired by Windows build number at the time.
