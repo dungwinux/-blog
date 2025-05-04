@@ -4,25 +4,24 @@ title: about
 permalink: /about/
 ---
 
-Hi! My name Dung Nguyen. Welcome to my page.
+Hi! My name Dung Nguyen. It is your choice to either sit back and read or skim through paragraphs.
 
-At the moment, I am a graduate at UMass Amherst, pursuing Master of Science in Computer Science. I study Computer Systems, Security, and Compiler.
+I hold Master of Science and Bachelor of Computer Science at UMass Amherst. My interest are Low-level programming, Computer systems, and Cybersecurity.
+It is my goal to reach the deepest core of code execution, to break down every layers of concept and abstraction on the way, and to realize dream's program with elegance.
 
-During secondary school, I worked on my very first compiler/interpreter:
-[vmath](https://winux8yt3.github.io/vmath/).
-Written in Free Pascal, it can read commands, parse expression, and compute floating-point arithmetics. it also has graphing capabilities as well as i18n support.
-My interests in Computer Systems and Compiler started ever since.
+In 2016, seeing and learning Free Pascal secondary school, my first instinct was to build an interpreter.
+Transforming knowledge from _Understanding and Writing Compilers_ by Richard Bornat, I wrote [vmath](https://github.com/winux8yt3/vmath/) - a math program that calculates, solves equations, and plots polynomials. It also embodies my early conceptualization of building and maintaining a large scale project.
 
-At UMass Amherst, I heaviliy study Computer System and Security.
-My favorite classes are [CompSci 335-535-635 series (Computer Architecture)](https://people.cs.umass.edu/~weems/homepage/courses/index.html) by Professor Charles Weems, and [CompSci 390R (Reverse Engineering)](https://pwn.umasscybersec.org/) by Steven Rossi and Gilbert Hoermann. Those have made my desire to reverse and study various Instruction Set Architectures strong.
+Thoughout my high school, I studied data structure and competitive programming in C++. Like many others, the transition beyond my first language is difficult, but overcoming it reveals to me a common view of all C-family language. This laid the way for me to learn many other languages: JavaScript, Haskell, C#, Rust, etc. 
 
-In my free time, I play CTF for team SavedByTheShell in the reversing, pwn, and forensics categories.
-I was also part of the team organizing UMassCTF 2022, 2023, and 2024.
+At UMass Amherst, I heaviliy study System and Security.
+My favorite classes are [CompSci 335-535-635 series (Computer Architecture)](https://people.cs.umass.edu/~weems/homepage/courses/index.html) by Professor Charles Weems, and [CompSci 390R (Reverse Engineering)](https://pwn.umasscybersec.org/) by Steven Rossi and Gilbert Hoermann. Those set ablaze my love for studying low-level and Instruction Set Architectures. I also joined UMass Cybersec Club at the time and was trained on Pentesting and Vulerability Analysis.
 
-Here in the domain of my personal blog, you may find contents
-related to CTF, human & programming languages, and some of my side interests.
-If you have any questions, email me, and I would be more than happy to answer.
+From 2020-2024, I played CTF for team SavedByTheShell, mainly in reversing, pwn, and forensics categories.
+I also wrote challenges for UMassCTF from 2022-2025; their details can be found in my blog.
 
-In case you wonder how to pronounce my first name, you can try _Jung_ as in [_Carl Jung_](https://en.wikipedia.org/wiki/Carl_Jung). If you are a linguist, here is the IPA: [zʊwŋ͡m˦ˀ˥]
+From the header, you might recognize this as the domain of my personal blog, where you can find links to various contents relating to CTF, (human & programming) languages, and anything I found worth documenting for the sake of history.
+
+Bonus: To pronounce my first name, it is similar to _Jung_ as in [_Carl Jung_](https://en.wikipedia.org/wiki/Carl_Jung). If you are a linguist, here is an accurate version in IPA: [zʊwŋ͡m˦ˀ˥]
 
 `c3`
